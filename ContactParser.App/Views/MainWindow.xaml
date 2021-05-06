@@ -3,10 +3,112 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ContactParser.App"
+        xmlns:viewModels="clr-namespace:ContactParser.App.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Kontakt Parser" Height="450" Width="800">
+    <Window.Resources>
+        <viewModels:MainWindowViewModel x:Key="mainWindowViewModel" />
+    </Window.Resources>
     <Grid>
+        <!--Definition of rows and columns-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
+        <!--Definition of the input field-->
+        <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center">
+            <Label 
+                HorizontalAlignment="Center" 
+                Content="Eingabefeld"/>
+            <TextBox 
+                HorizontalAlignment="Stretch"
+                Margin="30,0,30,0"
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=InputField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+        <!--Definition of the buttons-->
+        <StackPanel Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
+            <Button 
+                Margin="30,10,30,10"
+                HorizontalAlignment="Stretch"
+                Content="Zerlegen"
+                Command="{Binding Source={StaticResource mainWindowViewModel}, Path=ParseCommand}" />
+            <Button
+                Margin="30,10,30,10"
+                HorizontalAlignment="Stretch"
+                Content="Zurücksetzen"
+                Command="{Binding Source={StaticResource mainWindowViewModel}, Path=ResetCommand}" />
+        </StackPanel>
+
+        <!--Definition of the salutation field-->
+        <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
+            <Label 
+                HorizontalAlignment="Center" 
+                Content="Anrede" />
+            <TextBox 
+                HorizontalAlignment="Stretch" 
+                Margin="30,0,30,0"
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=CountryCode}"/>
+        </StackPanel>
+
+        <!--Definition of the title field-->
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+            <Label 
+                HorizontalAlignment="Center" 
+                Content="Titel" />
+            <TextBox 
+                HorizontalAlignment="Stretch" 
+                Margin="30,0,30,0"
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=AreaCode}"/>
+        </StackPanel>
+
+        <!--Definition of the first name field-->
+        <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
+            <Label 
+                HorizontalAlignment="Center" 
+                Content="Vorname" />
+            <TextBox 
+                HorizontalAlignment="Stretch" 
+                Margin="30,0,30,0"
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=SubscriberNumber}"/>
+        </StackPanel>
+
+        <!--Definition of the surname field-->
+        <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
+            <Label 
+                HorizontalAlignment="Center" 
+                Content="Nachname" />
+            <TextBox 
+                HorizontalAlignment="Stretch"
+                Margin="30,0,30,0"
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=Extension}"/>
+        </StackPanel>
+
+        <!--Definition of the input field to submit new titles-->
+        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+            <Label 
+                HorizontalAlignment="Center"
+                Content="Neuer Titel" />
+            <TextBox 
+                HorizontalAlignment="Stretch"
+                Margin="30,0,30,0" />
+        </StackPanel>
+
+        <!--Button to submit new titles-->
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="30,10,30,10"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Content="Hinzufügen" />
     </Grid>
 </Window>
