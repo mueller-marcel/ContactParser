@@ -22,6 +22,11 @@ namespace ContactParser.App.Models
         public string FirstName { get; set; }
 
         /// <summary>
+        /// holds the value for the MiddleName
+        /// </summary>
+        public string MiddleName { get; set; }
+
+        /// <summary>
         /// holds the value for the Title
         /// </summary>
         public string Title { get; set; }
