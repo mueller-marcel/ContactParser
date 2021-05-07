@@ -141,6 +141,7 @@ namespace ContactParser.App.ViewModels
         }
         #endregion
 
+        #region Methods
         /// <summary>
         /// Enables the add new title button when the new title input is not empty
         /// </summary>
@@ -193,5 +194,6 @@ namespace ContactParser.App.ViewModels
         {
 
         }
+        #endregion
     }
 }
