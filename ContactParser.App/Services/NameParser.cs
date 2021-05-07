@@ -9,23 +9,29 @@ namespace ContactParser.App.Services
     {
         public Name ParseName(string input)
         {
-
+            //
             string[] nameElements = input.Split(' ');
 
-
+            //
             string gender = GetGender(nameElements[0]);
 
+            //
             string lastName = GetNobleName(nameElements);
 
+            //
             string firstName = GetFirstName(nameElements);
 
+            //
             string middleName = GetMiddleName(nameElements);
 
+            //
             string salutation = GetSalutation(nameElements);
 
-            string title = GetTitel(nameElements);           
+            //
+            string title = GetTitel(nameElements);
 
-            string greeting = GetGreeting(nameElements);
+            //
+            string greeting = GetGreeting(lastName, firstName, salutation, title);
 
 
             Name nameData = new Name
@@ -42,8 +48,12 @@ namespace ContactParser.App.Services
             return nameData;
         }
 
-        
-        static string GetNobleName(string[] adresselements)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="adresselements"></param>
+        /// <returns></returns>
+        public static string GetNobleName(string[] adresselements)
         {
             string lastName = String.Empty;
 
@@ -68,11 +78,18 @@ namespace ContactParser.App.Services
             return lastName;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="salutation"></param>
+        /// <returns></returns>
         public static string GetGender(string salutation)
         {
             string[] salutationsMale = { "Herr"};
             string[] salutationsFemale = { "Frau" };
             string gender = String.Empty;
+
+
             foreach(string x in salutationsMale)
             {
                 if(x == salutation)
@@ -93,29 +110,69 @@ namespace ContactParser.App.Services
             return gender;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="adresselements"></param>
+        /// <returns></returns>
         static string GetFirstName(string[] adresselements)
         {
             return null;
         }
 
-        static string GetSalutation(string[] adresselements)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="adresselements"></param>
+        /// <returns></returns>
+        public  static string GetSalutation(string[] adresselements)
         {
             return null;
         }
 
-        static string GetMiddleName(string[] adresselements)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="adresselements"></param>
+        /// <returns></returns>
+        public static string GetMiddleName(string[] adresselements)
         {
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="adresselements"></param>
+        /// <returns></returns>
         static string GetTitel(string[] adresselements)
         {
             return null;
         }
 
-        static string GetGreeting(string[] adresselements)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lastName"></param>
+        /// <param name="firstName"></param>
+        /// <param name="salutation"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public static string GetGreeting(string lastName, string firstName, string salutation, string title )
         {
-            return null;
+            if (salutation == "Herr")
+            {
+                string greetingMale = "Sehr geehrter " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greetingMale;
+            }
+
+            if (salutation == "Frau")
+            {
+                string greetingFemale = "Sehr geehrte " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greetingFemale;
+            }
+
+            return "";
         }
     }
 }

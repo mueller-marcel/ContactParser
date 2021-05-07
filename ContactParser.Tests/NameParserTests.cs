@@ -22,5 +22,10 @@ namespace ContactParser.Tests
             Assert.AreEqual(expectedGenderFemale, genderFemale);
             Assert.AreEqual(expectedGenderDiverse, genderDiverse);
         }
+
+        public void ValidGreeting()
+        {
+
+        }
     }
 }
