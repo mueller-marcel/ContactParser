@@ -56,7 +56,7 @@
             <TextBox 
                 HorizontalAlignment="Stretch" 
                 Margin="30,0,30,0"
-                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=CountryCode}"/>
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=Salutation}"/>
         </StackPanel>
 
         <!--Definition of the title field-->
@@ -67,7 +67,7 @@
             <TextBox 
                 HorizontalAlignment="Stretch" 
                 Margin="30,0,30,0"
-                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=AreaCode}"/>
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=Title}"/>
         </StackPanel>
 
         <!--Definition of the first name field-->
@@ -78,7 +78,7 @@
             <TextBox 
                 HorizontalAlignment="Stretch" 
                 Margin="30,0,30,0"
-                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=SubscriberNumber}"/>
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=FirstName}"/>
         </StackPanel>
 
         <!--Definition of the surname field-->
@@ -89,7 +89,7 @@
             <TextBox 
                 HorizontalAlignment="Stretch"
                 Margin="30,0,30,0"
-                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=Extension}"/>
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=LastName}"/>
         </StackPanel>
 
         <!--Definition of the input field to submit new titles-->
@@ -99,7 +99,8 @@
                 Content="Neuer Titel" />
             <TextBox 
                 HorizontalAlignment="Stretch"
-                Margin="30,0,30,0" />
+                Margin="30,0,30,0" 
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=NewTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
 
         <!--Button to submit new titles-->
@@ -109,6 +110,7 @@
             Margin="30,10,30,10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            Content="Hinzufügen" />
+            Content="Hinzufügen" 
+            Command="{Binding Source={StaticResource mainWindowViewModel}, Path=AddTitleCommand}"/>
     </Grid>
 </Window>
