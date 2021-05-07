@@ -8,7 +8,7 @@ namespace ContactParser.App.Services
     {
         static string[] GetNobleName(string[] adresselements)
         {
-            string[] nobleIndicator = ["von", "Von", "van", "Van"];
+            string[] nobleIndicator = { "von", "Von", "van", "Van" };
             foreach (string x in nobleIndicator)
             {
                 int pos = Array.IndexOf(adresselements, x);
@@ -30,8 +30,8 @@ namespace ContactParser.App.Services
 
         static string GetGender(string salutation)
         {
-            string[] salutationsMale = [];
-            string[] salutationsFemale = [];
+            string[] salutationsMale = { };
+            string[] salutationsFemale = { };
             string gender = String.Empty;
             foreach(string x in salutationsMale)
             {
