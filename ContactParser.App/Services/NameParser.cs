@@ -68,7 +68,7 @@ namespace ContactParser.App.Services
             return lastName;
         }
 
-        static string GetGender(string salutation)
+        public static string GetGender(string salutation)
         {
             string[] salutationsMale = { "Herr"};
             string[] salutationsFemale = { "Frau" };
@@ -89,6 +89,7 @@ namespace ContactParser.App.Services
                     return gender;
                 }
             }
+            gender = "diverse";
             return gender;
         }
 
