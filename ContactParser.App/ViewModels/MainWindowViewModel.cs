@@ -24,6 +24,24 @@ namespace ContactParser.App.ViewModels
         }
 
         /// <summary>
+        /// Holds the value for the retrieved gender
+        /// </summary>
+        private string _gender;
+
+        /// <summary>
+        /// Property of <see cref="_gender"/>
+        /// </summary>
+        public string Gender
+        {
+            get { return _gender; }
+            set
+            {
+                _gender = value;
+                OnPropertyChanged(nameof(Gender));
+            }
+        }
+
+        /// <summary>
         /// Holds the value for the input field
         /// </summary>
         private string _salutation;
@@ -114,6 +132,24 @@ namespace ContactParser.App.ViewModels
         }
 
         /// <summary>
+        /// Holds the value for the concatenated name
+        /// </summary>
+        private string _concatenatedName;
+
+        /// <summary>
+        /// Property of <see cref="_concatenatedName"/>
+        /// </summary>
+        public string ConcatenatedName
+        {
+            get { return _concatenatedName; }
+            set
+            {
+                _concatenatedName = value;
+                OnPropertyChanged(nameof(ConcatenatedName));
+            }
+        }
+
+        /// <summary>
         /// Holds the button handlers for the add new title button
         /// </summary>
         public RelayCommand AddTitleCommand { get; set; }
@@ -172,11 +208,13 @@ namespace ContactParser.App.ViewModels
         public void ExecuteReset(object parameter)
         {
             InputField = string.Empty;
+            Gender = string.Empty;
             Salutation = string.Empty;
             Title = string.Empty;
             FirstName = string.Empty;
             LastName = string.Empty;
             NewTitle = string.Empty;
+            ConcatenatedName = string.Empty;
         }
 
         /// <summary>

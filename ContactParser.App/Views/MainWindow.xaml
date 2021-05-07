@@ -16,6 +16,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -48,8 +49,19 @@
                 Command="{Binding Source={StaticResource mainWindowViewModel}, Path=ResetCommand}" />
         </StackPanel>
 
-        <!--Definition of the salutation field-->
+        <!--Definition of the gender field-->
         <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
+            <Label 
+                HorizontalAlignment="Center" 
+                Content="Geschlecht" />
+            <TextBox 
+                HorizontalAlignment="Stretch" 
+                Margin="30,0,30,0"
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=Gender}"/>
+        </StackPanel>
+
+        <!--Definition of the salutation field-->
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
             <Label 
                 HorizontalAlignment="Center" 
                 Content="Anrede" />
@@ -60,7 +72,7 @@
         </StackPanel>
 
         <!--Definition of the title field-->
-        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+        <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
             <Label 
                 HorizontalAlignment="Center" 
                 Content="Titel" />
@@ -71,7 +83,7 @@
         </StackPanel>
 
         <!--Definition of the first name field-->
-        <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
+        <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
             <Label 
                 HorizontalAlignment="Center" 
                 Content="Vorname" />
@@ -82,7 +94,7 @@
         </StackPanel>
 
         <!--Definition of the surname field-->
-        <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
+        <StackPanel Grid.Row="1" Grid.Column="4" VerticalAlignment="Center">
             <Label 
                 HorizontalAlignment="Center" 
                 Content="Nachname" />
@@ -101,16 +113,23 @@
                 HorizontalAlignment="Stretch"
                 Margin="30,0,30,0" 
                 Text="{Binding Source={StaticResource mainWindowViewModel}, Path=NewTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button
+                Margin="30,10,30,10"
+                HorizontalAlignment="Stretch"
+                Content="Hinzufügen" 
+                Command="{Binding Source={StaticResource mainWindowViewModel}, Path=AddTitleCommand}"/>
         </StackPanel>
 
-        <!--Button to submit new titles-->
-        <Button
-            Grid.Row="2"
-            Grid.Column="2"
-            Margin="30,10,30,10"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            Content="Hinzufügen" 
-            Command="{Binding Source={StaticResource mainWindowViewModel}, Path=AddTitleCommand}"/>
+        <!--Definition of the text field to show the concatenated name-->
+        <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center">
+            <Label 
+                HorizontalAlignment="Center"
+                Content="Zusammengesetzte Anrede"/>
+            <TextBox
+                IsEnabled="False"
+                Margin="30,0,30,30"
+                HorizontalAlignment="Stretch"
+                Text="{Binding Source={StaticResource mainWindowViewModel}, Path=ConcatenatedName}"/>
+        </StackPanel>
     </Grid>
 </Window>
