@@ -52,14 +52,6 @@ namespace ContactParser.App.Services
             return gender;
         }
 
-        static void Main(string[] args)
-        {
-            string address = Console.ReadLine();
-            string[] addresselements = address.Split(' ');
-            string[] addressWithLastName = GetNobleName(addresselements);
-            string gender = GetGender(addressWithLastName[0]);
 
-
-        }
     }
 }
