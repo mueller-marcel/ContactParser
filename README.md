@@ -1,7 +1,7 @@
 # ContactParser
 
 # User Stories
-## Stroy 1 
+## Story 1 
 * Als Headhunter möchte ich gezielt Job-KandidatInnen förmlich mit Anrede kontaktieren, um auf persönlicher Ebene Kontakt aufzubauen. Hierfür ist eine generierte Briefanrede vonnöten.
 * Prio: *hoch*
 * Akzeptanzkriterium: Aus der Anrede wird ein Vorschlag für eine standardisierte Briefanrede gegeben, die nachträglich angepasst werden kann
