@@ -126,7 +126,6 @@
                 HorizontalAlignment="Center"
                 Content="Zusammengesetzte Anrede"/>
             <TextBox
-                IsEnabled="False"
                 Margin="30,0,30,30"
                 HorizontalAlignment="Stretch"
                 Text="{Binding Source={StaticResource mainWindowViewModel}, Path=ConcatenatedName}"/>
