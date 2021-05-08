@@ -40,5 +40,9 @@ namespace ContactParser.App.Models
         /// holds the value for the Greeting
         /// </summary>
         public string Greeting { get; set; }
+
+       
+
+
     }
 }
