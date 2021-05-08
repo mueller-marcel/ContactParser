@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 
 namespace ContactParser.App.Services
 {
@@ -86,6 +87,8 @@ namespace ContactParser.App.Services
                 {
                     lastName = lastName + adresselements[i] + " ";
                 }
+
+                lastName = lastName.Remove(lastName.Length - 1, 1);
                 return lastName;
             }
             else
@@ -105,7 +108,7 @@ namespace ContactParser.App.Services
         {
             string[] salutationsMale = { "Herr" };
             string[] salutationsFemale = { "Frau" };
-            string gender = String.Empty;
+            string gender;
 
 
             foreach (string x in salutationsMale)
@@ -124,7 +127,8 @@ namespace ContactParser.App.Services
                     return gender;
                 }
             }
-            gender = "diverse";
+            gender = "keine Angabe";
+            MessageBox.Show("Da das Geschlecht in dem Kontakt  nicht ersichtlich war, wurde keine Angabe angenommen. Bitte das Feld Geschlecht überprüfen!");
             return gender;
         }
 
@@ -135,7 +139,7 @@ namespace ContactParser.App.Services
         /// <returns>The FirstName as <see cref="string"/></returns>
         static string GetFirstName(string[] adresselements)
         {
-            string firstName = "";
+            string firstName = ""; 
 
             return firstName;
         }
