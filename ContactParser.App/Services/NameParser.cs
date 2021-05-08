@@ -52,7 +52,7 @@ namespace ContactParser.App.Services
 
 
             //Build the full Greeting
-            string greeting = GetGreeting(lastName[0].ToString(), firstName, salutation, title);
+            string greeting = GetGreeting(lastName, firstName, salutation, title);
 
             // Fill the Name object to be returned
             Name nameData = new Name

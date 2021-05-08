@@ -18,7 +18,7 @@ namespace ContactParser.Tests
             string expectedMiddleName = "Carsten";
             string expectedSalutation = "Herr";
             string expectedTitle = "Dr.-Ing. Dr. rer. nat. Dr. h.c. mult.";
-            //string expectedGreeting = "Sehr geehrter Herr Dr.-Ing. Dr. rer. nat. Dr. h.c. mult. von Güllefass-Stinkstiefel";
+            string expectedGreeting = "Sehr geehrter Herr Dr.-Ing. Dr. rer. nat. Dr. h.c. mult. Eckart van de Güllefass-Stinkstiefel";
 
 
             Name pasedConacatData = new Name();
@@ -31,14 +31,8 @@ namespace ContactParser.Tests
             Assert.AreEqual(expectedMiddleName, pasedConacatData.MiddleName);
             Assert.AreEqual(expectedFirstName, pasedConacatData.FirstName);
             Assert.AreEqual(expectedTitle, pasedConacatData.Title);
-            //Assert.AreEqual(expectedGreeting, pasedConacatData.Greeting);
+            Assert.AreEqual(expectedGreeting, pasedConacatData.Greeting);
         }
-
-       
-
-
-
-
 
         [TestMethod]
         public void ValidGreetingMale()
@@ -85,8 +79,8 @@ namespace ContactParser.Tests
         public void ValidNoMiddleName()
         {
             List<string> elements = new List<string>();
-            
-            
+
+
             string expectedFirstName = "keine Angabe";
 
             string firstName = NameParser.GetMiddleName(elements);
