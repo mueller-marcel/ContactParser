@@ -23,6 +23,19 @@ namespace ContactParser.Tests
             Assert.AreEqual(expectedGenderDiverse, genderDiverse);
         }
 
+        [TestMethod]
+        public void ValidNoblename()
+        {
+            string[] adresselements = { "Herr", "Dr.", "Heinz", "van", "de", "Hasenfratz-Schreier" };
+            string nobleName = NameParser.GetNobleName(adresselements);
+
+            string expectedNobleName = "van de Hasenfratz-Schreier ";
+
+            Assert.AreEqual(expectedNobleName, nobleName);
+
+        }
+
+        [TestMethod]
         public void ValidGreeting()
         {
 

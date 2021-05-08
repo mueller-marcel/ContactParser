@@ -7,37 +7,42 @@ namespace ContactParser.App.Services
 {
     public class NameParser
     {
+        /// <summary>
+        /// Parse the input contact string
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>An instance of type <see cref="Name"/> containing all the information about the contact</returns>
         public Name ParseName(string input)
         {
-            //
+            //Splitting the input string based on empty characters
             string[] nameElements = input.Split(' ');
 
-            //
+            //Determines the gender from the salutaion
             string gender = GetGender(nameElements[0]);
 
-            //
+            //Extract the Lastname 
             string lastName = GetNobleName(nameElements);
 
-            //
+            //Extract the Firstname 
             string firstName = GetFirstName(nameElements);
 
-            //
+            //Extract the Middlename
             string middleName = GetMiddleName(nameElements);
 
-            //
+            //Extract the Salutation
             string salutation = GetSalutation(nameElements);
 
-            //
+            //Extract the Title 
             string title = GetTitel(nameElements);
 
-            //
+            //Build the full Greeting
             string greeting = GetGreeting(lastName, firstName, salutation, title);
 
-
+            // Fill the Name object to be returned
             Name nameData = new Name
             {
                 Gender = gender,
-                LastName = lastName,            
+                LastName = lastName,
                 FirstName = firstName,
                 MiddleName = middleName,
                 Salutation = salutation,
@@ -49,32 +54,45 @@ namespace ContactParser.App.Services
         }
 
         /// <summary>
-        /// 
+        /// Extracts the NobleName
         /// </summary>
         /// <param name="adresselements"></param>
-        /// <returns></returns>
+        /// <returns>The lastName as <see cref="string"/></returns>
         public static string GetNobleName(string[] adresselements)
         {
             string lastName = String.Empty;
 
-            string[] nobleIndicator = { "von", "Von", "van", "Van" };
+            string[] nobleIndicator = { "von", "Von", "Vom", "vom", "van", "Van" };
+
+
+            int pos = -1;
+            var adresselementsLength = adresselements.Length;
 
             foreach (string x in nobleIndicator)
             {
-                int pos = Array.IndexOf(adresselements, x);
-                if (pos > -1)
+                foreach (string y in adresselements)
                 {
-                    
-                    for (int i = pos; i < adresselements.Length; i++)
+                    if (x == y)
                     {
-                        lastName = lastName + adresselements[i] + " ";
+                        pos = Array.IndexOf(adresselements, x);
+                        break;
                     }
-                    string[] result = new string[pos];
-                    Array.Copy(adresselements, 0, result, 0, pos);
-                    result[pos] = lastName;
-                    return lastName;
                 }
             }
+
+            if (pos > -1)
+            {
+                for (int i = pos; i < adresselementsLength; i++)
+                {
+                    lastName = lastName + adresselements[i] + " ";
+                }
+                return lastName;
+            }
+            else
+            {
+                lastName = adresselements[adresselementsLength - 1];
+            }
+
             return lastName;
         }
 
@@ -82,25 +100,25 @@ namespace ContactParser.App.Services
         /// 
         /// </summary>
         /// <param name="salutation"></param>
-        /// <returns></returns>
+        /// <returns>The gender as <see cref="string"/></returns>
         public static string GetGender(string salutation)
         {
-            string[] salutationsMale = { "Herr"};
+            string[] salutationsMale = { "Herr" };
             string[] salutationsFemale = { "Frau" };
             string gender = String.Empty;
 
 
-            foreach(string x in salutationsMale)
+            foreach (string x in salutationsMale)
             {
-                if(x == salutation)
+                if (x == salutation)
                 {
                     gender = "male";
                     return gender;
                 }
             }
-            foreach(string x in salutationsFemale)
+            foreach (string x in salutationsFemale)
             {
-                if(x == salutation)
+                if (x == salutation)
                 {
                     gender = "female";
                     return gender;
@@ -114,40 +132,48 @@ namespace ContactParser.App.Services
         /// 
         /// </summary>
         /// <param name="adresselements"></param>
-        /// <returns></returns>
+        /// <returns>The FirstName as <see cref="string"/></returns>
         static string GetFirstName(string[] adresselements)
         {
-            return null;
+            string firstName = "";
+
+            return firstName;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="adresselements"></param>
-        /// <returns></returns>
-        public  static string GetSalutation(string[] adresselements)
+        /// <returns>The salutation as <see cref="string"/></returns>
+        public static string GetSalutation(string[] adresselements)
         {
-            return null;
+            string salutation = "";
+
+            return salutation;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="adresselements"></param>
-        /// <returns></returns>
+        /// <returns>The middlename as <see cref="string"/></returns>
         public static string GetMiddleName(string[] adresselements)
         {
-            return null;
+            string middleName = "";
+
+            return middleName;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="adresselements"></param>
-        /// <returns></returns>
+        /// <returns>The title as <see cref="string"/></returns>
         static string GetTitel(string[] adresselements)
         {
-            return null;
+            string title = "";
+
+            return title;
         }
 
         /// <summary>
@@ -157,8 +183,8 @@ namespace ContactParser.App.Services
         /// <param name="firstName"></param>
         /// <param name="salutation"></param>
         /// <param name="title"></param>
-        /// <returns></returns>
-        public static string GetGreeting(string lastName, string firstName, string salutation, string title )
+        /// <returns>The full greeting as <see cref="string"/></returns>
+        public static string GetGreeting(string lastName, string firstName, string salutation, string title)
         {
             if (salutation == "Herr")
             {
