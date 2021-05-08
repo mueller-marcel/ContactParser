@@ -1,7 +1,9 @@
 ﻿using ContactParser.App.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
 
 namespace ContactParser.App.Services
@@ -79,7 +81,7 @@ namespace ContactParser.App.Services
         {
             string lastName = String.Empty;
 
-            string[] nobleIndicator = { "von", "Von", "Vom", "vom", "van", "Van" };
+            string[] nobleIndicator = { "von", "Von", "Vom", "vom", "van", "Van", "zu", "Zu", "zur", "Zur" };
 
             Liste el = new Liste();
 
@@ -254,14 +256,18 @@ namespace ContactParser.App.Services
         public static string GetTitle(List<string> adresselement)
         {
             string title = "";
-            string[] titleIndicator = { "Dr.", "Prof.", "rer.", "Dr.-Ing.", "h.c.", "mult.", "nat." };
+
+            
+            string fileName = "..\\Data\\Title.json";
+            string jsonString = File.ReadAllText(fileName);
+            Liste titleIndicators = JsonSerializer.Deserialize<Liste>(jsonString);
 
             Liste el = new Liste();
             int pos = -1;
 
             foreach (string x in adresselement)
             {
-                foreach (string y in titleIndicator)
+                foreach (string y in titleIndicators.Title)
                 {
                     if (x == y)
                     {
@@ -304,7 +310,7 @@ namespace ContactParser.App.Services
             //German
             if (salutation == "Herr" || salutation == "Herrn")
             {
-                string greeting = "Sehr geehrter " + salutation + " " + title + " " + firstName + " " + lastName;
+                string greeting = "Sehr geehrter " + "Herr" + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
             else if (salutation == "Frau")

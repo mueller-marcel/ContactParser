@@ -10,5 +10,10 @@ namespace ContactParser.App.Models
         /// holds the Splittet String of the Contact
         /// </summary>
         public List<string> Elements { get; set; }
+
+        /// <summary>
+        /// holds the Titles
+        /// </summary>
+        public List<string> Title { get; set; }
     }
 }
