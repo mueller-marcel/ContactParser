@@ -81,7 +81,8 @@ namespace ContactParser.Tests
         [TestMethod]
         public void ValidGreeting()
         {
-            string expectedGreeting = "Guten Tag Dr. Willma Freiherr vom Wald";
+            //achtung 2 leerzeichen
+            string expectedGreeting = "Guten Tag  Dr. Willma Freiherr vom Wald";
             string greeeting = NameParser.GetGreeting("Freiherr vom Wald", "Willma", "", "Dr.");
 
             Assert.AreEqual(expectedGreeting, greeeting);
