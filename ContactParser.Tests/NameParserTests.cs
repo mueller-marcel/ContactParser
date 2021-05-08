@@ -7,9 +7,63 @@ namespace ContactParser.Tests
     public class NameParserTests
     {
         [TestMethod]
+        public void ValidSalutationMale()
+        {
+            string expectedSalutationMale = "Herr";
+            string salutationMale = NameParser.GetSalutation("Herr");
+
+            Assert.AreEqual(salutationMale, expectedSalutationMale);
+        }
+
+        [TestMethod]
+        public void ValidSalutationFemale()
+        {
+            string expectedSalutationFemale = "Ms.";
+            string salutationFemale = NameParser.GetSalutation("Ms.");
+
+            Assert.AreEqual(salutationFemale, expectedSalutationFemale);
+        }
+
+        [TestMethod]
+        public void ValidSalutation()
+        {
+            string expectedSalutation = "keine Angabe";
+            string salutation = NameParser.GetSalutation("Prof.");
+
+            Assert.AreEqual(salutation, expectedSalutation);
+        }
+
+        [TestMethod]
+        public void ValidGreetingMale()
+        {
+            string expectedGreetingMale = "Sehr geehrter Herr Prof. Sandro Freiherr vom Wald";
+            string greeetingMale = NameParser.GetGreeting("Freiherr vom Wald", "Sandro", "Herr", "Prof.");
+
+            Assert.AreEqual(expectedGreetingMale, greeetingMale);
+        }
+
+        [TestMethod]
+        public void ValidGreetingFemale()
+        {
+            string expectedGreetingFemale = "Sehr geehrte Frau Dr. Willma Freiherr vom Wald";
+            string greeetingFemale = NameParser.GetGreeting("Freiherr vom Wald", "Willma", "Frau", "Dr.");
+
+            Assert.AreEqual(expectedGreetingFemale, greeetingFemale);
+        }
+
+        [TestMethod]
+        public void ValidGreeting()
+        {
+            string expectedGreeting = "Guten Tag Dr. Willma Freiherr vom Wald";
+            string greeeting = NameParser.GetGreeting("Freiherr vom Wald", "Willma", "", "Dr.");
+
+            Assert.AreEqual(expectedGreeting, greeeting);
+        }
+
+        [TestMethod]
         public void ValidGenderMale()
         {
-            string expectedGenderMale = "male";
+            string expectedGenderMale = "männlich";
             string genderMale = NameParser.GetGender("Herr");
 
             Assert.AreEqual(expectedGenderMale, genderMale);
@@ -19,7 +73,7 @@ namespace ContactParser.Tests
         [TestMethod]
         public void ValidGenderFemale()
         {
-            string expectedGenderFemale = "female";
+            string expectedGenderFemale = "weiblich";
             string genderFemale = NameParser.GetGender("Frau");
 
 
@@ -60,11 +114,6 @@ namespace ContactParser.Tests
             Assert.AreEqual(expectedNobleName, nobleName);
 
         }
-
-        [TestMethod]
-        public void ValidGreeting()
-        {
-
-        }
+       
     }
 }

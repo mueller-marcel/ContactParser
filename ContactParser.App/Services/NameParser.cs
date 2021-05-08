@@ -31,7 +31,7 @@ namespace ContactParser.App.Services
             string middleName = GetMiddleName(nameElements);
 
             //Extract the Salutation
-            string salutation = GetSalutation(nameElements);
+            string salutation = GetSalutation(nameElements[0]);
 
             //Extract the Title 
             string title = GetTitel(nameElements);
@@ -106,16 +106,20 @@ namespace ContactParser.App.Services
         /// <returns>The gender as <see cref="string"/></returns>
         public static string GetGender(string salutation)
         {
-            string[] salutationsMale = { "Herr" };
-            string[] salutationsFemale = { "Frau" };
+            string[] salutationsMale = { "Herr", "Mr." };
+            string[] genderMale = { "männlich", "male" };
+            string[] salutationsFemale = { "Frau", "Ms.", "Mrs"  };
+            string[] genderFemale = {"weiblich", "female", "female" };
             string gender;
 
+            int pos;
 
             foreach (string x in salutationsMale)
             {
                 if (x == salutation)
                 {
-                    gender = "male";
+                    pos = Array.IndexOf(salutationsMale, x);
+                    gender = genderMale[pos];
                     return gender;
                 }
             }
@@ -123,12 +127,13 @@ namespace ContactParser.App.Services
             {
                 if (x == salutation)
                 {
-                    gender = "female";
+                    pos = Array.IndexOf(salutationsFemale, x);
+                    gender = genderFemale[pos];
                     return gender;
                 }
             }
             gender = "keine Angabe";
-            MessageBox.Show("Da das Geschlecht in dem Kontakt  nicht ersichtlich war, wurde keine Angabe angenommen. Bitte das Feld Geschlecht überprüfen!");
+            MessageBox.Show("Da das Geschlecht aus dem Kontakt nicht ersichtlich war, wurde keine Angabe angenommen. Bitte das Feld Geschlecht überprüfen!");
             return gender;
         }
 
@@ -147,13 +152,32 @@ namespace ContactParser.App.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="adresselements"></param>
+        /// <param name="adresselement"></param>
         /// <returns>The salutation as <see cref="string"/></returns>
-        public static string GetSalutation(string[] adresselements)
+        public static string GetSalutation(string adresselement)
         {
-            string salutation = "";
+            string salutation;
 
-            return salutation;
+            string[] salutationIndicator = { "keine Angabe", "Herr", "Frau", "Mr.", "Ms." };
+            int pos = 0;
+            foreach (string x in salutationIndicator)
+            {               
+                    if (x == adresselement)
+                    {
+                        pos = Array.IndexOf(salutationIndicator, x);
+                        break;
+                    }                
+            }
+
+            salutation = salutationIndicator[pos];
+
+            if(salutation == "keine Angabe")
+            {
+                MessageBox.Show("Da die korrekte Anrede aus dem Kontakt nicht ersichtlich war, wurde keine Angabe angenommen. Bitte das Feld Anrede überprüfen!");
+            }
+
+            return salutation;                      
+                      
         }
 
         /// <summary>
@@ -195,14 +219,16 @@ namespace ContactParser.App.Services
                 string greetingMale = "Sehr geehrter " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greetingMale;
             }
-
-            if (salutation == "Frau")
+            else if (salutation == "Frau")
             {
                 string greetingFemale = "Sehr geehrte " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greetingFemale;
             }
-
-            return "";
+            else
+            {
+                string greeting = "Guten Tag " + title + " " + firstName + " " + lastName;
+                return greeting;
+            }           
         }
     }
 }
