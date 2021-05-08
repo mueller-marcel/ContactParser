@@ -155,10 +155,10 @@ namespace ContactParser.Tests
         public void ValidSalutationFemale()
         {
             List<string> elements = new List<string>();
-            elements.Add("Ms.");
+            elements.Add("Ms");
             elements.Add("Dr.");
 
-            string expectedSalutationFemale = "Ms.";
+            string expectedSalutationFemale = "Ms";
             string salutationFemale = NameParser.GetSalutation(elements);
 
 

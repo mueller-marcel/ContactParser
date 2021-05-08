@@ -73,7 +73,7 @@ namespace ContactParser.App.Services
         /// <summary>
         /// Extract the NobleName
         /// </summary>
-        /// <param name="adresselements"></param>
+        /// <param name="adresselement"></param>
         /// <returns>The lastName as <see cref="string"/></returns>
         public static string GetNobleName(List<string> adresselement)
         {
@@ -137,10 +137,10 @@ namespace ContactParser.App.Services
         /// <returns>The gender as <see cref="string"/></returns>
         public static string GetGender(string salutation)
         {
-            string[] salutationsMale = { "Herr", "Mr." };
-            string[] genderMale = { "männlich", "male" };
-            string[] salutationsFemale = { "Frau", "Ms.", "Mrs" };
-            string[] genderFemale = { "weiblich", "female", "female" };
+            string[] salutationsMale = { "Herr", "Herrn", "Mr", "Sig.", "M", "Senor" };
+            string[] genderMale = { "männlich", "männlich", "male", "male", "male", "male" };
+            string[] salutationsFemale = { "Frau", "Ms", "Mrs", "Signora", "Mme", "Senora" };
+            string[] genderFemale = { "weiblich", "female", "female", "female", "female", "female" };
             string gender;
 
             int pos;
@@ -171,7 +171,7 @@ namespace ContactParser.App.Services
         /// <summary>
         /// Extract the FirstName
         /// </summary>
-        /// <param name="adresselements"></param>
+        /// <param name="adresselement"></param>
         /// <returns>The FirstName as <see cref="string"/></returns>
         public static string GetFirstName(List<string> adresselement)
         {
@@ -194,7 +194,7 @@ namespace ContactParser.App.Services
         {
             string salutation;
 
-            string[] salutationIndicator = { "keine Angabe", "Herr", "Frau", "Mr.", "Ms." };
+            string[] salutationIndicator = { "keine Angabe", "Herr", "Herrn", "Frau", "Mr", "Ms", "Mrs", "Mme", "M", "Senora", "Senor", "Signora", "Sig." };
             int pos = 0;
             foreach (string x in salutationIndicator)
             {
@@ -224,7 +224,7 @@ namespace ContactParser.App.Services
         /// <summary>
         /// Extract the MiddleName
         /// </summary>
-        /// <param name="adresselements"></param>
+        /// <param name="adresselement"></param>
         /// <returns>The middlename as <see cref="string"/></returns>
         public static string GetMiddleName(List<string> adresselement)
         {
@@ -249,12 +249,12 @@ namespace ContactParser.App.Services
         /// <summary>
         /// Extract the Title
         /// </summary>
-        /// <param name="adresselements"></param>
+        /// <param name="adresselement"></param>
         /// <returns>The title as <see cref="string"/></returns>
         public static string GetTitle(List<string> adresselement)
         {
             string title = "";
-            string[] titleIndicator = { "keine Angabe", "Dr.", "Prof.", "rer.", "Dr.-Ing.", "h.c.", "mult.", "nat." };
+            string[] titleIndicator = { "Dr.", "Prof.", "rer.", "Dr.-Ing.", "h.c.", "mult.", "nat." };
 
             Liste el = new Liste();
             int pos = -1;
@@ -277,10 +277,7 @@ namespace ContactParser.App.Services
 
             }
 
-
             el.Elements = adresselement;
-
-
 
             if (title == "")
             {
@@ -292,9 +289,6 @@ namespace ContactParser.App.Services
             title = title.Remove(title.Length - 1, 1);
 
             return title;
-
-
-
         }
 
         /// <summary>
@@ -304,19 +298,60 @@ namespace ContactParser.App.Services
         /// <param name="firstName"></param>
         /// <param name="salutation"></param>
         /// <param name="title"></param>
-        /// <returns>The full greeting as <see cref="string"/></returns>
+        /// <returns>The full greeting as <see cref="string"/></returns>     
         public static string GetGreeting(string lastName, string firstName, string salutation, string title)
         {
-            if (salutation == "Herr")
+            //German
+            if (salutation == "Herr" || salutation == "Herrn")
             {
-                string greetingMale = "Sehr geehrter " + salutation + " " + title + " " + firstName + " " + lastName;
-                return greetingMale;
+                string greeting = "Sehr geehrter " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greeting;
             }
             else if (salutation == "Frau")
             {
-                string greetingFemale = "Sehr geehrte " + salutation + " " + title + " " + firstName + " " + lastName;
-                return greetingFemale;
+                string greeting = "Sehr geehrte " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greeting;
             }
+            //English
+            else if (salutation == "Mr" || salutation == "Ms" || salutation == "Mrs")
+            {
+                string greeting = "Dear " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greeting;
+            }
+            //Italy
+            else if (salutation == "Signora")
+            {
+                string greeting = "Gentie " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greeting;
+            }
+            else if (salutation == "Sig.")
+            {
+                string greeting = "Egregio " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greeting;
+            }
+            //France
+            else if (salutation == "Mme")
+            {
+                string greeting = "Madame " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greeting;
+            }
+            else if (salutation == "M")
+            {
+                string greeting = "Monsieur " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greeting;
+            }
+            //Espanol
+            else if (salutation == "Senora")
+            {
+                string greeting = "Estimada " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greeting;
+            }
+            else if (salutation == "Senor")
+            {
+                string greeting = "Estimado " + salutation + " " + title + " " + firstName + " " + lastName;
+                return greeting;
+            }
+
             else
             {
                 string greeting = "Guten Tag " + title + " " + firstName + " " + lastName;
