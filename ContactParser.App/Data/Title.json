@@ -7,5 +7,71 @@
     "h.c.",
     "mult.",
     "nat."
+  ],
+
+  "NobleIndicator": [
+    "von",
+    "Von",
+    "Vom",
+    "vom",
+    "van",
+    "Van",
+    "zu",
+    "Zu",
+    "zur",
+    "Zur",
+    "Freiherr"
+  ],
+
+  "SalutationIndicator": [
+    "keine Angabe",
+    "Herr",
+    "Herrn",
+    "Frau",
+    "Mr",
+    "Ms",
+    "Mrs",
+    "Mme",
+    "M",
+    "Senora",
+    "Senor",
+    "Signora",
+    "Sig."
+  ],
+
+  "GenderFemale": [
+    "weiblich",
+    "female",
+    "female",
+    "female",
+    "female",
+    "female"
+  ],
+
+  "SalutationsFemale": [
+    "Frau",
+    "Ms",
+    "Mrs",
+    "Signora",
+    "Mme",
+    "Senora"
+  ],
+
+  "GenderMale": [
+    "maennlich",
+    "maennlich",
+    "male",
+    "male",
+    "male",
+    "male"
+  ],
+
+  "SalutationsMale": [
+    "Herr",
+    "Herrn",
+    "Mr",
+    "Sig.",
+    "M",
+    "Senor"
   ]
 }

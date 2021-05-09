@@ -38,7 +38,7 @@ namespace ContactParser.Tests
         [TestMethod]
         public void ValidParseName2()
         {
-            string expectedGender = "männlich";
+            string expectedGender = "maennlich";
             string expectedLastName = "van de Güllefass-Stinkstiefel";
             string expectedFirstName = "Eckart";
             string expectedMiddleName = "Carsten";
@@ -209,7 +209,7 @@ namespace ContactParser.Tests
         [TestMethod]
         public void ValidGenderMale()
         {
-            string expectedGenderMale = "männlich";
+            string expectedGenderMale = "maennlich";
             string genderMale = NameParser.GetGender("Herr");
 
             Assert.AreEqual(expectedGenderMale, genderMale);

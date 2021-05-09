@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
@@ -20,19 +21,13 @@ namespace ContactParser.App.Services
         /// <returns>An instance of type <see cref="Name"/> containing all the information about the contact</returns>
         public static Name ParseName(string input)
         {
-            //Splitting the input string based on empty characters
-            string[] nameElements = input.Split(' ');
-            List<string> elements = new List<string>();
-            foreach (string x in nameElements)
-            {
-                elements.Add(x);
-            }
+
+            //Splitting the input string to List based on empty characters
+            List<string> elements = input.Split(' ').ToList();  
 
             Liste el = new Liste();
 
             el.Elements = elements;
-
-
 
             //Determines the gender from the salutaion
             string gender = GetGender(elements[0]);
@@ -58,7 +53,8 @@ namespace ContactParser.App.Services
             if (salutation == "keine Angabe")
             {
                 sal = "";
-            }else
+            }
+            else
             {
                 sal = salutation;
             }
@@ -105,13 +101,18 @@ namespace ContactParser.App.Services
         {
             string lastName = String.Empty;
 
-            string[] nobleIndicator = { "von", "Von", "Vom", "vom", "van", "Van", "zu", "Zu", "zur", "Zur" };
 
             Liste el = new Liste();
 
+            string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Title.json";
+
+            string jsonString = File.ReadAllText(fileName);
+            Liste nobleIndicator = JsonSerializer.Deserialize<Liste>(jsonString);
+
+
             int pos = -1;
 
-            foreach (string x in nobleIndicator)
+            foreach (string x in nobleIndicator.NobleIndicator)
             {
                 foreach (string y in adresselement)
                 {
@@ -163,29 +164,33 @@ namespace ContactParser.App.Services
         /// <returns>The gender as <see cref="string"/></returns>
         public static string GetGender(string salutation)
         {
-            string[] salutationsMale = { "Herr", "Herrn", "Mr", "Sig.", "M", "Senor" };
-            string[] genderMale = { "männlich", "männlich", "male", "male", "male", "male" };
-            string[] salutationsFemale = { "Frau", "Ms", "Mrs", "Signora", "Mme", "Senora" };
-            string[] genderFemale = { "weiblich", "female", "female", "female", "female", "female" };
+            string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Title.json";
+
+            string jsonString = File.ReadAllText(fileName);
+            Liste salutationsMale = JsonSerializer.Deserialize<Liste>(jsonString);
+            Liste genderMale = JsonSerializer.Deserialize<Liste>(jsonString);
+            Liste salutationsFemale = JsonSerializer.Deserialize<Liste>(jsonString);
+            Liste genderFemale = JsonSerializer.Deserialize<Liste>(jsonString);
+
             string gender;
 
             int pos;
 
-            foreach (string x in salutationsMale)
+            foreach (string x in salutationsMale.SalutationsMale)
             {
                 if (x == salutation)
                 {
-                    pos = Array.IndexOf(salutationsMale, x);
-                    gender = genderMale[pos];
+                    pos = salutationsMale.SalutationsMale.IndexOf(x);
+                    gender = genderMale.GenderMale[pos];
                     return gender;
                 }
             }
-            foreach (string x in salutationsFemale)
+            foreach (string x in salutationsFemale.SalutationsFemale)
             {
                 if (x == salutation)
                 {
-                    pos = Array.IndexOf(salutationsFemale, x);
-                    gender = genderFemale[pos];
+                    pos = salutationsFemale.SalutationsFemale.IndexOf(x);
+                    gender = genderFemale.GenderFemale[pos];
                     return gender;
                 }
             }
@@ -220,19 +225,23 @@ namespace ContactParser.App.Services
         {
             string salutation;
 
-            string[] salutationIndicator = { "keine Angabe", "Herr", "Herrn", "Frau", "Mr", "Ms", "Mrs", "Mme", "M", "Senora", "Senor", "Signora", "Sig." };
+            string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Title.json";
+
+            string jsonString = File.ReadAllText(fileName);
+            Liste salutationIndicator = JsonSerializer.Deserialize<Liste>(jsonString);
+
             int pos = 0;
-            foreach (string x in salutationIndicator)
+            foreach (string x in salutationIndicator.SalutationIndicator)
             {
                 if (x == adresselement[0])
                 {
-                    pos = Array.IndexOf(salutationIndicator, x);
+                    pos = salutationIndicator.SalutationIndicator.IndexOf(x);
                     adresselement.RemoveAt(0);
                     break;
                 }
             }
 
-            salutation = salutationIndicator[pos];
+            salutation = salutationIndicator.SalutationIndicator[pos];
 
             if (salutation == "keine Angabe")
             {
