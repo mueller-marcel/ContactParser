@@ -12,7 +12,8 @@ namespace ContactParser.App.Services
 {
     public class NameParser
     {
-
+        public static string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Title.json";
+        public static string jsonString = File.ReadAllText(fileName);
 
         /// <summary>
         /// Parse the input contact string
@@ -91,6 +92,7 @@ namespace ContactParser.App.Services
             MessageBox.Show("Bitte überprüfe die Vorgeschalagene Formulierung für die Anrede und nimm ggf. Änderungen vor.");
             return nameData;
         }
+        
 
         /// <summary>
         /// Extract the NobleName
@@ -101,14 +103,9 @@ namespace ContactParser.App.Services
         {
             string lastName = String.Empty;
 
-
-            Liste el = new Liste();
-
-            string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Title.json";
-
-            string jsonString = File.ReadAllText(fileName);
+            Liste el = new Liste();           
+                        
             Liste nobleIndicator = JsonSerializer.Deserialize<Liste>(jsonString);
-
 
             int pos = -1;
 
@@ -164,9 +161,7 @@ namespace ContactParser.App.Services
         /// <returns>The gender as <see cref="string"/></returns>
         public static string GetGender(string salutation)
         {
-            string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Title.json";
-
-            string jsonString = File.ReadAllText(fileName);
+            
             Liste salutationsMale = JsonSerializer.Deserialize<Liste>(jsonString);
             Liste genderMale = JsonSerializer.Deserialize<Liste>(jsonString);
             Liste salutationsFemale = JsonSerializer.Deserialize<Liste>(jsonString);
@@ -225,9 +220,6 @@ namespace ContactParser.App.Services
         {
             string salutation;
 
-            string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Title.json";
-
-            string jsonString = File.ReadAllText(fileName);
             Liste salutationIndicator = JsonSerializer.Deserialize<Liste>(jsonString);
 
             int pos = 0;
@@ -289,10 +281,7 @@ namespace ContactParser.App.Services
         public static string GetTitle(List<string> adresselement)
         {
             string title = "";
-
-            string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Title.json";
-
-            string jsonString = File.ReadAllText(fileName);
+                       
             Liste titleIndicators = JsonSerializer.Deserialize<Liste>(jsonString);
 
 
