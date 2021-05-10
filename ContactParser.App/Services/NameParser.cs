@@ -12,7 +12,7 @@ namespace ContactParser.App.Services
 {
     public class NameParser
     {
-        public static string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Title.json";
+        public static string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Data.json";
         public static string jsonString = File.ReadAllText(fileName);
 
         /// <summary>

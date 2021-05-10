@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Data\Title.json" />
+    <None Remove="Data\Data.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Data\Title.json" />
+    <EmbeddedResource Include="Data\Data.json" />
   </ItemGroup>
 
   <ItemGroup>

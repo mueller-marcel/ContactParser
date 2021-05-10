@@ -12,7 +12,7 @@ namespace ContactParser.Tests
         [TestMethod]
         public void ValidParseName()
         {
-            string expectedGender = "female";
+            string expectedGender = "femenino";
             string expectedLastName = "van de Güllefass-Stinkstiefel";
             string expectedFirstName = "Sibille";
             string expectedMiddleName = "Isolde";
