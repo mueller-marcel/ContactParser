@@ -1,6 +1,8 @@
 ﻿using ContactParser.App.Helpers;
 using ContactParser.App.Models;
 using ContactParser.App.Services;
+using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace ContactParser.App.ViewModels
 {
@@ -232,6 +234,20 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteParse(object parameter)
         {
+            Regex rx = new Regex(@"[0-9]");
+
+            //if input is Invalid
+            if (!InputField.Contains(" "))
+            {
+                MessageBox.Show("Eingabe konnte nicht verarbeitet werden, da mind. ein Name fehlt.");                
+                return;
+            }
+            else if (rx.IsMatch(InputField))
+            {
+                MessageBox.Show("Keine gültige Eingabe");
+                return;
+            }
+
             Name parsedName = NameParser.ParseName(InputField);
 
             Gender = parsedName.Gender;
