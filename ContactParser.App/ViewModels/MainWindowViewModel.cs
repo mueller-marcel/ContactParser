@@ -1,4 +1,6 @@
 ﻿using ContactParser.App.Helpers;
+using ContactParser.App.Models;
+using ContactParser.App.Services;
 
 namespace ContactParser.App.ViewModels
 {
@@ -230,7 +232,14 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteParse(object parameter)
         {
+            Name parsedName = NameParser.ParseName(InputField);
 
+            Gender = parsedName.Gender;
+            FirstName = parsedName.FirstName;
+            LastName = parsedName.LastName;
+            Title = parsedName.Title;
+            Salutation = parsedName.Salutation;
+            ConcatenatedName = parsedName.Greeting;
         }
         #endregion
     }
