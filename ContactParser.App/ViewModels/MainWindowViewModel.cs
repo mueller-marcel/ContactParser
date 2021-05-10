@@ -235,8 +235,17 @@ namespace ContactParser.App.ViewModels
         public void ExecuteParse(object parameter)
         {
             Regex rx = new Regex(@"[0-9]");
-
+            Regex rxc = new Regex(@"\s+");
             //if input is Invalid
+
+            InputField = InputField.TrimStart();
+            InputField = InputField.TrimEnd();
+
+            if (rxc.IsMatch(InputField))
+            {
+                InputField = Regex.Replace(InputField, @"\s+", " ");
+            }
+
             if (!InputField.Contains(" "))
             {
                 MessageBox.Show("Eingabe konnte nicht verarbeitet werden, da mind. ein Name fehlt.");                
