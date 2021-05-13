@@ -1,12 +1,15 @@
 {
   "Title": [
     "Dr.",
+    "Professor",
     "Prof.",
     "rer.",
     "Dr.-Ing.",
     "h.c.",
     "mult.",
-    "nat."
+    "nat.",
+    "Dipl.",
+    "Ing."
   ],
 
   "NobleIndicator": [
@@ -20,7 +23,8 @@
     "Zu",
     "zur",
     "Zur",
-    "Freiherr"
+    "Freiherr",
+    "y"
   ],
 
   "SalutationIndicator": [
@@ -29,10 +33,15 @@
     "Herrn",
     "Frau",
     "Mr",
+    "Mr.",
     "Ms",
+    "Ms.",
+    "Mrs.",
     "Mrs",
     "Mme",
+    "Mme.",
     "M",
+    "M.",
     "Senora",
     "Senor",
     "Signora",
@@ -43,7 +52,10 @@
     "weiblich",
     "female",
     "female",
+    "female",
+    "female",
     "femmina",
+    "femelle",
     "femelle",
     "femenino"
   ],
@@ -51,9 +63,12 @@
   "SalutationsFemale": [
     "Frau",
     "Ms",
+    "Ms.",
     "Mrs",
+    "Mrs.",
     "Signora",
     "Mme",
+    "Mme.",
     "Senora"
   ],
 
@@ -61,7 +76,9 @@
     "maennlich",
     "maennlich",
     "male",
+    "male",
     "maschile",
+    "masculin",
     "masculin",
     "masculino"
   ],
@@ -70,8 +87,10 @@
     "Herr",
     "Herrn",
     "Mr",
+    "Mr.",
     "Sig.",
     "M",
+    "M.",
     "Senor"
   ]
 }

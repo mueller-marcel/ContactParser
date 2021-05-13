@@ -12,7 +12,7 @@ namespace ContactParser.App.Services
 {
     public class NameParser
     {
-        public static string fileName = @"C:\Users\muell\source\repos\ContactParser\ContactParser.App\Data\Data.json";
+        public static string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Data.json";
         public static string jsonString = File.ReadAllText(fileName);
 
         /// <summary>
@@ -24,8 +24,8 @@ namespace ContactParser.App.Services
         {
 
             //Splitting the input string to List based on empty characters
-            List<string> elements = input.Split(' ').ToList();  
-
+            List<string> elements = input.Split(' ').ToList();
+                        
             Liste el = new Liste();
 
             el.Elements = elements;
@@ -47,10 +47,18 @@ namespace ContactParser.App.Services
             string firstName = GetFirstName(el.Elements);
 
             //Extract the Middlename
-
             string middleName = GetMiddleName(el.Elements);
 
-            string sal;
+
+            string fN, lN, sal, ti;
+
+            //if last char of lastName = "," then store lastname in firstname, and firstname in lastName and remove ","
+            List<string> lNfN = ChangeFirstAndLastName(firstName, lastName);
+            fN = lNfN[0];
+            lN = lNfN[1];
+
+
+            //if salutation = "keine Angabe" replace with "" for the Greeting
             if (salutation == "keine Angabe")
             {
                 sal = "";
@@ -60,7 +68,7 @@ namespace ContactParser.App.Services
                 sal = salutation;
             }
 
-            string ti;
+            //if title = "keine Angabe" replace with "" for the Greeting
             if (title == "keine Angabe")
             {
                 ti = "";
@@ -70,29 +78,33 @@ namespace ContactParser.App.Services
                 ti = title;
             }
 
+            if (middleName == "keine Angabe")
+            {
+                middleName = "";
+            }
+
             //Build the full Greeting
-            string greeting = GetGreeting(lastName, firstName, sal, ti);
+            string greeting = GetGreeting(lN, fN, sal, ti);
 
+            //if greeting contains no titel and salutation denn Replace
             greeting = greeting.Replace("   ", " ");
+            //if greeting contains no titel or salutation denn Replace
             greeting = greeting.Replace("  ", " ");
-
 
             // Fill the Name object to be returned
             Name nameData = new Name
             {
                 Gender = gender,
-                LastName = lastName,
-                FirstName = firstName,
+                LastName = lN,
+                FirstName = fN + " " + middleName,
                 MiddleName = middleName,
                 Salutation = salutation,
                 Title = title,
                 Greeting = greeting,
             };
 
-            MessageBox.Show("Bitte überprüfe die Vorgeschalagene Formulierung für die Anrede und nimm ggf. Änderungen vor.");
             return nameData;
         }
-        
 
         /// <summary>
         /// Extract the NobleName
@@ -103,8 +115,8 @@ namespace ContactParser.App.Services
         {
             string lastName = String.Empty;
 
-            Liste el = new Liste();           
-                        
+            Liste el = new Liste();
+
             Liste nobleIndicator = JsonSerializer.Deserialize<Liste>(jsonString);
 
             int pos = -1;
@@ -126,12 +138,25 @@ namespace ContactParser.App.Services
                 for (int i = pos; i < adresselement.Count; i++)
                 {
                     lastName = lastName + adresselement[i] + " ";
+                    if (adresselement[i].EndsWith(","))
+                    {
+                        break;
+                    }
                 }
 
                 for (int i = pos; i < adresselement.Count; i++)
                 {
-                    adresselement.RemoveAt(i);
-                    i -= 1;
+                    if (adresselement[i].EndsWith(","))
+                    {
+                        adresselement.RemoveAt(i);
+                        break;
+                    }
+                    else
+                    {
+                        adresselement.RemoveAt(i);
+                        i -= 1;
+                    }
+
                 }
 
 
@@ -161,7 +186,7 @@ namespace ContactParser.App.Services
         /// <returns>The gender as <see cref="string"/></returns>
         public static string GetGender(string salutation)
         {
-            
+
             Liste salutationsMale = JsonSerializer.Deserialize<Liste>(jsonString);
             Liste genderMale = JsonSerializer.Deserialize<Liste>(jsonString);
             Liste salutationsFemale = JsonSerializer.Deserialize<Liste>(jsonString);
@@ -190,7 +215,6 @@ namespace ContactParser.App.Services
                 }
             }
             gender = "keine Angabe";
-            MessageBox.Show("Da das Geschlecht aus dem Kontakt nicht ersichtlich war, wurde keine Angabe angenommen. Bitte das Feld Geschlecht überprüfen!");
             return gender;
         }
 
@@ -202,10 +226,9 @@ namespace ContactParser.App.Services
         public static string GetFirstName(List<string> adresselement)
         {
 
-            string firstName = "";
+            string firstName;
 
             firstName = adresselement[0];
-
             adresselement.RemoveAt(0);
 
             return firstName;
@@ -234,11 +257,6 @@ namespace ContactParser.App.Services
             }
 
             salutation = salutationIndicator.SalutationIndicator[pos];
-
-            if (salutation == "keine Angabe")
-            {
-                MessageBox.Show("Da die korrekte Anrede aus dem Kontakt nicht ersichtlich war, wurde keine Angabe angenommen. Bitte das Feld Anrede überprüfen!");
-            }
 
             Liste el = new Liste();
 
@@ -281,7 +299,7 @@ namespace ContactParser.App.Services
         public static string GetTitle(List<string> adresselement)
         {
             string title = "";
-                       
+
             Liste titleIndicators = JsonSerializer.Deserialize<Liste>(jsonString);
 
 
@@ -342,7 +360,7 @@ namespace ContactParser.App.Services
                 return greeting;
             }
             //English
-            else if (salutation == "Mr" || salutation == "Ms" || salutation == "Mrs")
+            else if (salutation == "Mr" || salutation == "Ms" || salutation == "Mrs" || salutation == "Mr." || salutation == "Ms." || salutation == "Mrs.")
             {
                 string greeting = "Dear " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
@@ -359,14 +377,14 @@ namespace ContactParser.App.Services
                 return greeting;
             }
             //France
-            else if (salutation == "Mme")
+            else if (salutation == "Mme" || salutation == "Mme.")
             {
-                string greeting = "Madame " + salutation + " " + title + " " + firstName + " " + lastName;
+                string greeting = "Madame " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            else if (salutation == "M")
+            else if (salutation == "M" || salutation == "M.")
             {
-                string greeting = "Monsieur " + salutation + " " + title + " " + firstName + " " + lastName;
+                string greeting = "Monsieur " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
             //Espanol
@@ -384,8 +402,49 @@ namespace ContactParser.App.Services
             else
             {
                 string greeting = "Guten Tag " + " " + title + " " + firstName + " " + lastName;
+
+                if (firstName != "keine Angabe")
+                {
+                    MessageBox.Show("Bitte überprüfe die Vorgeschlagene Anrede.");
+                }
                 return greeting;
             }
         }
+
+        /// <summary>
+        /// if input name like "lastName, firstName" change the names and remove the ","
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <returns>A list with firstName and lastName <see cref="List{String}"/></returns>
+        public static List<string> ChangeFirstAndLastName(string firstName, string lastName)
+        {
+            List<string> lNfN = new List<string>();
+
+            if (firstName.EndsWith(","))
+            {
+                firstName = firstName.Remove(firstName.Length - 1);
+                lNfN.Add(lastName);
+                lNfN.Add(firstName);
+            }
+            else
+            {
+                lNfN.Add(firstName);
+
+                if (lastName.EndsWith(","))
+                {
+                    lastName = lastName.Remove(lastName.Length - 1);
+                    lNfN.Add(lastName);
+                }
+                else
+                {
+                    lNfN.Add(lastName);
+                }
+            }
+
+            return lNfN;
+        }
     }
+
+
 }

@@ -14,7 +14,7 @@ namespace ContactParser.Tests
         {
             string expectedGender = "femenino";
             string expectedLastName = "van de Güllefass-Stinkstiefel";
-            string expectedFirstName = "Sibille";
+            string expectedFirstName = "Sibille Isolde";
             string expectedMiddleName = "Isolde";
             string expectedSalutation = "Senora";
             string expectedTitle = "Dr.-Ing. Dr. rer. nat. Dr. h.c. mult.";
@@ -40,7 +40,7 @@ namespace ContactParser.Tests
         {
             string expectedGender = "maennlich";
             string expectedLastName = "van de Güllefass-Stinkstiefel";
-            string expectedFirstName = "Eckart";
+            string expectedFirstName = "Eckart Carsten";
             string expectedMiddleName = "Carsten";
             string expectedSalutation = "Herr";
             string expectedTitle = "keine Angabe";
@@ -50,6 +50,31 @@ namespace ContactParser.Tests
             Name pasedConacatData = new Name();
 
             pasedConacatData = NameParser.ParseName("Herr Eckart Carsten van de Güllefass-Stinkstiefel");
+
+            Assert.AreEqual(expectedGender, pasedConacatData.Gender);
+            Assert.AreEqual(expectedLastName, pasedConacatData.LastName);
+            Assert.AreEqual(expectedSalutation, pasedConacatData.Salutation);
+            Assert.AreEqual(expectedMiddleName, pasedConacatData.MiddleName);
+            Assert.AreEqual(expectedFirstName, pasedConacatData.FirstName);
+            Assert.AreEqual(expectedTitle, pasedConacatData.Title);
+            Assert.AreEqual(expectedGreeting, pasedConacatData.Greeting);
+        }
+
+        [TestMethod]
+        public void ValidParseName3()
+        {
+            string expectedGender = "maennlich";
+            string expectedLastName = "van de Güllefass-Stinkstiefel";
+            string expectedFirstName = "Eckart Carsten";
+            string expectedMiddleName = "Carsten";
+            string expectedSalutation = "Herr";
+            string expectedTitle = "Prof. Dr. rer. nat.";
+            string expectedGreeting = "Sehr geehrter Herr Prof. Dr. rer. nat. Eckart van de Güllefass-Stinkstiefel";
+
+
+            Name pasedConacatData = new Name();
+
+            pasedConacatData = NameParser.ParseName("Herr Prof. Dr. rer. nat. van de Güllefass-Stinkstiefel, Eckart Carsten");
 
             Assert.AreEqual(expectedGender, pasedConacatData.Gender);
             Assert.AreEqual(expectedLastName, pasedConacatData.LastName);
