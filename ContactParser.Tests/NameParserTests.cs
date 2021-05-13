@@ -15,7 +15,7 @@ namespace ContactParser.Tests
         [TestMethod]
         public void ValidSpanishFemaleName()
         {
-            // Expected values
+            // Define expected name
             Name expectedName = new Name
             {
                 Gender = "femenino",
@@ -27,7 +27,7 @@ namespace ContactParser.Tests
                 Greeting = "Estimada Senora Dr.-Ing. Dr. rer. nat. Dr. h.c. mult. Sibille van de Güllefass-Stinkstiefel"
             };
 
-            // Parse name
+            // Parse name and compare to expected name
             using (var parser = new NameParser())
             {
                 Name parsedName = parser.ParseName("Senora Dr.-Ing. Dr. rer. nat. Dr. h.c. mult. Sibille Isolde van de Güllefass-Stinkstiefel");
@@ -41,6 +41,7 @@ namespace ContactParser.Tests
         [TestMethod]
         public void ValidGermanMaleName()
         {
+            // Define expected name
             Name expectedName = new Name
             {
                 Gender = "maennlich",
@@ -52,6 +53,7 @@ namespace ContactParser.Tests
                 Greeting = "Sehr geehrter Herr Eckart van de Güllefass-Stinkstiefel"
             };
 
+            // Parse name and compare to expected name
             using (var parser = new NameParser())
             {
                 Name parsedName = parser.ParseName("Herr Eckart Carsten van de Güllefass-Stinkstiefel");
@@ -65,6 +67,7 @@ namespace ContactParser.Tests
         [TestMethod]
         public void ValidGermanNameWithTitle()
         {
+            // Define expected name
             Name expectedName = new Name
             {
                 Gender = "maennlich",
@@ -76,6 +79,7 @@ namespace ContactParser.Tests
                 Greeting = "Sehr geehrter Herr Prof. Dr. rer. nat. Eckart van de Güllefass-Stinkstiefel"
             };
 
+            // Parse name and compare to expected name
             using (var parser = new NameParser())
             {
                 Name parsedName = parser.ParseName("Herr Prof. Dr. rer. nat. van de Güllefass-Stinkstiefel, Eckart Carsten");
