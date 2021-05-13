@@ -234,7 +234,11 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteParse(object parameter)
         {
-            Name parsedName = NameParser.ParseName(InputField);
+            Name parsedName;
+            using (var nameParser = new NameParser())
+            {
+                parsedName = nameParser.ParseName(InputField);
+            }
 
             Gender = parsedName.Gender;
             FirstName = parsedName.FirstName;

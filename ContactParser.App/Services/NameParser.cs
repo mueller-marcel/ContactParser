@@ -3,24 +3,50 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Windows;
 namespace ContactParser.App.Services
 
 
 {
-    public class NameParser
+    public class NameParser : IDisposable
     {
-        public static string fileName = @"C:\Users\josua\source\repos\ContactParser\ContactParser.App\Data\Data.json";
-        public static string jsonString = File.ReadAllText(fileName);
+        /// <summary>
+        /// Holds the file name for the data file
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// Holds the content of the data file
+        /// </summary>
+        public string JsonContent { get; set; }
+
+        /// <summary>
+        /// Initializes the access to the title file
+        /// </summary>
+        public NameParser()
+        {
+            using (var titleManager = new TitleManager())
+            {
+                try
+                {
+                    titleManager.CreateTitleFile();
+                    FileName = titleManager.TitlePath;
+                    JsonContent = titleManager.TitleContent;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
 
         /// <summary>
         /// Parse the input contact string
         /// </summary>
         /// <param name="input"></param>
         /// <returns>An instance of type <see cref="Name"/> containing all the information about the contact</returns>
-        public static Name ParseName(string input)
+        public Name ParseName(string input)
         {
 
             //Splitting the input string to List based on empty characters
@@ -111,13 +137,13 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The lastName as <see cref="string"/></returns>
-        public static string GetNobleName(List<string> adresselement)
+        public string GetNobleName(List<string> adresselement)
         {
             string lastName = String.Empty;
 
             Liste el = new Liste();
 
-            Liste nobleIndicator = JsonSerializer.Deserialize<Liste>(jsonString);
+            Liste nobleIndicator = JsonSerializer.Deserialize<Liste>(JsonContent);
 
             int pos = -1;
 
@@ -184,13 +210,13 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="salutation"></param>
         /// <returns>The gender as <see cref="string"/></returns>
-        public static string GetGender(string salutation)
+        public string GetGender(string salutation)
         {
 
-            Liste salutationsMale = JsonSerializer.Deserialize<Liste>(jsonString);
-            Liste genderMale = JsonSerializer.Deserialize<Liste>(jsonString);
-            Liste salutationsFemale = JsonSerializer.Deserialize<Liste>(jsonString);
-            Liste genderFemale = JsonSerializer.Deserialize<Liste>(jsonString);
+            Liste salutationsMale = JsonSerializer.Deserialize<Liste>(JsonContent);
+            Liste genderMale = JsonSerializer.Deserialize<Liste>(JsonContent);
+            Liste salutationsFemale = JsonSerializer.Deserialize<Liste>(JsonContent);
+            Liste genderFemale = JsonSerializer.Deserialize<Liste>(JsonContent);
 
             string gender;
 
@@ -223,7 +249,7 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The FirstName as <see cref="string"/></returns>
-        public static string GetFirstName(List<string> adresselement)
+        public string GetFirstName(List<string> adresselement)
         {
 
             string firstName;
@@ -239,11 +265,11 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The salutation as <see cref="string"/></returns>
-        public static string GetSalutation(List<string> adresselement)
+        public string GetSalutation(List<string> adresselement)
         {
             string salutation;
 
-            Liste salutationIndicator = JsonSerializer.Deserialize<Liste>(jsonString);
+            Liste salutationIndicator = JsonSerializer.Deserialize<Liste>(JsonContent);
 
             int pos = 0;
             foreach (string x in salutationIndicator.SalutationIndicator)
@@ -271,7 +297,7 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The middlename as <see cref="string"/></returns>
-        public static string GetMiddleName(List<string> adresselement)
+        public string GetMiddleName(List<string> adresselement)
         {
 
             string middleName = "";
@@ -296,11 +322,11 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The title as <see cref="string"/></returns>
-        public static string GetTitle(List<string> adresselement)
+        public string GetTitle(List<string> adresselement)
         {
             string title = "";
 
-            Liste titleIndicators = JsonSerializer.Deserialize<Liste>(jsonString);
+            Liste titleIndicators = JsonSerializer.Deserialize<Liste>(JsonContent);
 
 
             Liste el = new Liste();
@@ -346,7 +372,7 @@ namespace ContactParser.App.Services
         /// <param name="salutation"></param>
         /// <param name="title"></param>
         /// <returns>The full greeting as <see cref="string"/></returns>     
-        public static string GetGreeting(string lastName, string firstName, string salutation, string title)
+        public string GetGreeting(string lastName, string firstName, string salutation, string title)
         {
             //German
             if (salutation == "Herr" || salutation == "Herrn")
@@ -417,7 +443,7 @@ namespace ContactParser.App.Services
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
         /// <returns>A list with firstName and lastName <see cref="List{String}"/></returns>
-        public static List<string> ChangeFirstAndLastName(string firstName, string lastName)
+        public List<string> ChangeFirstAndLastName(string firstName, string lastName)
         {
             List<string> lNfN = new List<string>();
 
@@ -444,7 +470,14 @@ namespace ContactParser.App.Services
 
             return lNfN;
         }
+
+        /// <summary>
+        /// Releases the managed properties
+        /// </summary>
+        public void Dispose()
+        {
+            JsonContent = null;
+            FileName = null;
+        }
     }
-
-
 }
