@@ -137,7 +137,7 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The lastName as <see cref="string"/></returns>
-        public string GetNobleName(List<string> adresselement)
+        private string GetNobleName(List<string> adresselement)
         {
             string lastName = String.Empty;
 
@@ -210,7 +210,7 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="salutation"></param>
         /// <returns>The gender as <see cref="string"/></returns>
-        public string GetGender(string salutation)
+        private string GetGender(string salutation)
         {
 
             Liste salutationsMale = JsonSerializer.Deserialize<Liste>(JsonContent);
@@ -249,7 +249,7 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The FirstName as <see cref="string"/></returns>
-        public string GetFirstName(List<string> adresselement)
+        private string GetFirstName(List<string> adresselement)
         {
 
             string firstName;
@@ -265,7 +265,7 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The salutation as <see cref="string"/></returns>
-        public string GetSalutation(List<string> adresselement)
+        private string GetSalutation(List<string> adresselement)
         {
             string salutation;
 
@@ -297,7 +297,7 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The middlename as <see cref="string"/></returns>
-        public string GetMiddleName(List<string> adresselement)
+        private string GetMiddleName(List<string> adresselement)
         {
 
             string middleName = "";
@@ -322,7 +322,7 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The title as <see cref="string"/></returns>
-        public string GetTitle(List<string> adresselement)
+        private string GetTitle(List<string> adresselement)
         {
             string title = "";
 
@@ -372,7 +372,7 @@ namespace ContactParser.App.Services
         /// <param name="salutation"></param>
         /// <param name="title"></param>
         /// <returns>The full greeting as <see cref="string"/></returns>     
-        public string GetGreeting(string lastName, string firstName, string salutation, string title)
+        private string GetGreeting(string lastName, string firstName, string salutation, string title)
         {
             //German
             if (salutation == "Herr" || salutation == "Herrn")
@@ -443,7 +443,7 @@ namespace ContactParser.App.Services
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
         /// <returns>A list with firstName and lastName <see cref="List{String}"/></returns>
-        public List<string> ChangeFirstAndLastName(string firstName, string lastName)
+        private List<string> ChangeFirstAndLastName(string firstName, string lastName)
         {
             List<string> lNfN = new List<string>();
 
