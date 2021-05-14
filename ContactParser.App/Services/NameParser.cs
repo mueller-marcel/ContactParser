@@ -405,12 +405,8 @@ namespace ContactParser.App.Services
 
             else
             {
-                string greeting = "Guten Tag " + " " + title + " " + firstName + " " + lastName;
-
-                if (firstName != "keine Angabe")
-                {
-                    MessageBox.Show("Bitte überprüfe die Vorgeschlagene Anrede.");
-                }
+                string greeting = "Guten Tag " + " " + title + " " + firstName + " " + lastName;                            
+                            
                 return greeting;
             }
         }

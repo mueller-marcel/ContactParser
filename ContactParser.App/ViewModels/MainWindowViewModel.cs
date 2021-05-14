@@ -234,7 +234,7 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteParse(object parameter)
         {
-            Regex regexNumbers = new Regex(@"[0-9]");
+            Regex regexNumbers = new Regex(@"[0-9/\<>|{}ß\\´`'#^°_!§$%&()\[\]+*""]");
             Regex regexWhiteSpaces = new Regex(@"\s+");
 
             // Trim Whitspaces at the begin and end of the Input
@@ -248,10 +248,18 @@ namespace ContactParser.App.ViewModels
             }
 
             // If Input contains Numbers or no Whitspaces
-            if (!InputField.Contains(" ") || regexNumbers.IsMatch(InputField))
+            if (!InputField.Contains(" "))
             {
                 InputField = string.Empty;
-                MessageBox.Show("Keine gültige Eingabe");
+                MessageBox.Show("Invalide Input! \nInput must contain at least first name and last name(e.g. \"John Doe\").");
+                return;
+            }
+
+            // If Input contains Number
+            if (regexNumbers.IsMatch(InputField))
+            {
+                InputField = string.Empty;
+                MessageBox.Show("Invalide Input");
                 return;
             }
 
@@ -267,6 +275,12 @@ namespace ContactParser.App.ViewModels
             Title = parsedName.Title;
             Salutation = parsedName.Salutation;
             ConcatenatedName = parsedName.Greeting;
+
+            // If Salutation unidentifiable show advice
+            if (parsedName.Salutation == "keine Angabe")
+            {
+                MessageBox.Show("Please check the proposed salutation.");
+            }
         }
         #endregion
     }
