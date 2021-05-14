@@ -1,6 +1,8 @@
 ﻿using ContactParser.App.Helpers;
 using ContactParser.App.Models;
 using ContactParser.App.Services;
+using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace ContactParser.App.ViewModels
 {
@@ -232,6 +234,27 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteParse(object parameter)
         {
+            Regex regexNumbers = new Regex(@"[0-9]");
+            Regex regexWhiteSpaces = new Regex(@"\s+");
+
+            // Trim Whitspaces at the begin and end of the Input
+            InputField = InputField.TrimStart();
+            InputField = InputField.TrimEnd();
+
+            // If Input contains several Whitespaces in a row
+            if (regexWhiteSpaces.IsMatch(InputField))
+            {
+                InputField = Regex.Replace(InputField, @"\s+", " ");
+            }
+
+            // If Input contains Numbers or no Whitspaces
+            if (!InputField.Contains(" ") || regexNumbers.IsMatch(InputField))
+            {
+                InputField = string.Empty;
+                MessageBox.Show("Keine gültige Eingabe");
+                return;
+            }
+
             Name parsedName;
             using (var nameParser = new NameParser())
             {
