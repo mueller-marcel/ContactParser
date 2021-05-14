@@ -405,8 +405,7 @@ namespace ContactParser.App.Services
 
             else
             {
-                string greeting = "Guten Tag " + " " + title + " " + firstName + " " + lastName;                            
-                            
+                string greeting = "Guten Tag " + " " + title + " " + firstName + " " + lastName;                       
                 return greeting;
             }
         }
