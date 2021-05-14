@@ -352,7 +352,7 @@ namespace ContactParser.App.Services
         /// <returns>The full greeting as <see cref="string"/></returns>     
         private string GetGreeting(string lastName, string firstName, string salutation, string title)
         {
-            //German
+            // German
             if (salutation == "Herr" || salutation == "Herrn")
             {
                 string greeting = "Sehr geehrter " + "Herr" + " " + title + " " + firstName + " " + lastName;
@@ -363,13 +363,13 @@ namespace ContactParser.App.Services
                 string greeting = "Sehr geehrte " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            //English
+            // English
             else if (salutation == "Mr" || salutation == "Ms" || salutation == "Mrs" || salutation == "Mr." || salutation == "Ms." || salutation == "Mrs.")
             {
                 string greeting = "Dear " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            //Italy
+            // Italian
             else if (salutation == "Signora")
             {
                 string greeting = "Gentie " + salutation + " " + title + " " + firstName + " " + lastName;
@@ -380,7 +380,7 @@ namespace ContactParser.App.Services
                 string greeting = "Egregio " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            //France
+            // France
             else if (salutation == "Mme" || salutation == "Mme.")
             {
                 string greeting = "Madame " + title + " " + firstName + " " + lastName;
@@ -391,7 +391,7 @@ namespace ContactParser.App.Services
                 string greeting = "Monsieur " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            //Espanol
+            // Spanish
             else if (salutation == "Senora")
             {
                 string greeting = "Estimada " + salutation + " " + title + " " + firstName + " " + lastName;
