@@ -1,8 +1,6 @@
 ﻿using ContactParser.App.Helpers;
 using ContactParser.App.Models;
 using ContactParser.App.Services;
-using System.Text.RegularExpressions;
-using System.Windows;
 
 namespace ContactParser.App.ViewModels
 {

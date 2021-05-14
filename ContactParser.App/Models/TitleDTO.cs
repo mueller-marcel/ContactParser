@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ContactParser.App.Models
 {
-    class Liste
+    public class TitleDTO
     {
         /// <summary>
         /// holds the Splittet String of the Contact

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace ContactParser.App.Services
 {
@@ -27,7 +25,7 @@ namespace ContactParser.App.Services
             Stream titleStream;
 
             // Get the path and the content as stream
-            var location = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+            Uri location = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
             TitlePath = Path.Combine(location.AbsolutePath, "titles.json");
             try
             {

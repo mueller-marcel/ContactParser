@@ -1,8 +1,6 @@
+using ContactParser.App.Models;
 using ContactParser.App.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ContactParser.App.Models;
-using System.Collections.Generic;
-using System;
 
 namespace ContactParser.Tests
 {

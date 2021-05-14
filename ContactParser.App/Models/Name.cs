@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ContactParser.App.Models
+﻿namespace ContactParser.App.Models
 {
     public class Name
     {
@@ -46,29 +42,28 @@ namespace ContactParser.App.Models
         /// </summary>
         /// <param name="obj">The object to compare</param>
         /// <returns>True if all values are equal</returns>
-        public override bool Equals(object obj) => Equals(obj as Name);
-
-        /// <summary>
-        /// Helper method to check for equality between <see cref="Name"/> instances
-        /// </summary>
-        /// <param name="name">The instance of type <see cref="Name"/> to check for equality</param>
-        /// <returns>True if all values are equal</returns>
-        private bool Equals(Name name)
+        public override bool Equals(object obj)
         {
-            if (name is null)
+            // Simple null check
+            if (obj is null)
             {
                 return false;
             }
 
-            if (ReferenceEquals(this, name))
+            // Reference equality means value equality
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
 
-            if (GetType() != name.GetType())
+            // Check for the exact runtime type
+            if (GetType() != obj.GetType())
             {
                 return false;
             }
+
+            // Check whether all values are equal
+            Name name = obj as Name;
             bool isGenderEqual = Gender.Equals(name.Gender);
             bool isLastNameEqual = LastName.Equals(name.LastName);
             bool isMiddleNameEqual = MiddleName.Equals(name.MiddleName);
