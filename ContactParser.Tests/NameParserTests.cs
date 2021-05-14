@@ -1,304 +1,304 @@
+using ContactParser.App.Models;
 using ContactParser.App.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ContactParser.App.Models;
-using System.Collections.Generic;
-using System;
 
 namespace ContactParser.Tests
 {
     [TestClass]
     public class NameParserTests
     {
+        /// <summary>
+        /// Test a spanish female name
+        /// </summary>
         [TestMethod]
-        public void ValidParseName()
+        public void ValidSpanishFemaleName()
         {
-            string expectedGender = "femenino";
-            string expectedLastName = "van de Güllefass-Stinkstiefel";
-            string expectedFirstName = "Sibille Isolde";
-            string expectedMiddleName = "Isolde";
-            string expectedSalutation = "Senora";
-            string expectedTitle = "Dr.-Ing. Dr. rer. nat. Dr. h.c. mult.";
+            // Define expected name
+            Name expectedName = new Name
+            {
+                Gender = "femenino",
+                LastName = "van de Güllefass-Stinkstiefel",
+                FirstName = "Sibille Isolde",
+                MiddleName = "Isolde",
+                Salutation = "Senora",
+                Title = "Dr.-Ing. Dr. rer. nat. Dr. h.c. mult.",
+                Greeting = "Estimada Senora Dr.-Ing. Dr. rer. nat. Dr. h.c. mult. Sibille van de Güllefass-Stinkstiefel"
+            };
 
-            string expectedGreeting = "Estimada Senora Dr.-Ing. Dr. rer. nat. Dr. h.c. mult. Sibille van de Güllefass-Stinkstiefel";
-
-
-            Name pasedConacatData = new Name();
-
-             pasedConacatData = NameParser.ParseName("Senora Dr.-Ing. Dr. rer. nat. Dr. h.c. mult. Sibille Isolde van de Güllefass-Stinkstiefel");
-
-            Assert.AreEqual(expectedGender, pasedConacatData.Gender);
-            Assert.AreEqual(expectedLastName, pasedConacatData.LastName);
-            Assert.AreEqual(expectedSalutation, pasedConacatData.Salutation);
-            Assert.AreEqual(expectedMiddleName, pasedConacatData.MiddleName);
-            Assert.AreEqual(expectedFirstName, pasedConacatData.FirstName);
-            Assert.AreEqual(expectedTitle, pasedConacatData.Title);
-            Assert.AreEqual(expectedGreeting, pasedConacatData.Greeting);
+            // Parse name and compare to expected name
+            using (var parser = new NameParser())
+            {
+                Name parsedName = parser.ParseName("Senora Dr.-Ing. Dr. rer. nat. Dr. h.c. mult. Sibille Isolde van de Güllefass-Stinkstiefel");
+                Assert.AreEqual(expectedName, parsedName);
+            }
         }
 
+        /// <summary>
+        /// Test a german male name
+        /// </summary>
         [TestMethod]
-        public void ValidParseName2()
+        public void ValidGermanMaleName()
         {
-            string expectedGender = "maennlich";
-            string expectedLastName = "van de Güllefass-Stinkstiefel";
-            string expectedFirstName = "Eckart Carsten";
-            string expectedMiddleName = "Carsten";
-            string expectedSalutation = "Herr";
-            string expectedTitle = "keine Angabe";
-            string expectedGreeting = "Sehr geehrter Herr Eckart van de Güllefass-Stinkstiefel";
+            // Define expected name
+            Name expectedName = new Name
+            {
+                Gender = "maennlich",
+                LastName = "van de Güllefass-Stinkstiefel",
+                FirstName = "Eckart Carsten",
+                MiddleName = "Carsten",
+                Salutation = "Herr",
+                Title = "keine Angabe",
+                Greeting = "Sehr geehrter Herr Eckart van de Güllefass-Stinkstiefel"
+            };
 
-
-            Name pasedConacatData = new Name();
-
-            pasedConacatData = NameParser.ParseName("Herr Eckart Carsten van de Güllefass-Stinkstiefel");
-
-            Assert.AreEqual(expectedGender, pasedConacatData.Gender);
-            Assert.AreEqual(expectedLastName, pasedConacatData.LastName);
-            Assert.AreEqual(expectedSalutation, pasedConacatData.Salutation);
-            Assert.AreEqual(expectedMiddleName, pasedConacatData.MiddleName);
-            Assert.AreEqual(expectedFirstName, pasedConacatData.FirstName);
-            Assert.AreEqual(expectedTitle, pasedConacatData.Title);
-            Assert.AreEqual(expectedGreeting, pasedConacatData.Greeting);
+            // Parse name and compare to expected name
+            using (var parser = new NameParser())
+            {
+                Name parsedName = parser.ParseName("Herr Eckart Carsten van de Güllefass-Stinkstiefel");
+                Assert.AreEqual(expectedName, parsedName);
+            }
         }
 
+        /// <summary>
+        /// Test a german name with an academic title
+        /// </summary>
         [TestMethod]
-        public void ValidParseName3()
+        public void ValidGermanNameWithTitle()
         {
-            string expectedGender = "maennlich";
-            string expectedLastName = "van de Güllefass-Stinkstiefel";
-            string expectedFirstName = "Eckart Carsten";
-            string expectedMiddleName = "Carsten";
-            string expectedSalutation = "Herr";
-            string expectedTitle = "Prof. Dr. rer. nat.";
-            string expectedGreeting = "Sehr geehrter Herr Prof. Dr. rer. nat. Eckart van de Güllefass-Stinkstiefel";
+            // Define expected name
+            Name expectedName = new Name
+            {
+                Gender = "maennlich",
+                LastName = "van de Güllefass-Stinkstiefel",
+                FirstName = "Eckart Carsten",
+                MiddleName = "Carsten",
+                Salutation = "Herr",
+                Title = "Prof. Dr. rer. nat.",
+                Greeting = "Sehr geehrter Herr Prof. Dr. rer. nat. Eckart van de Güllefass-Stinkstiefel"
+            };
 
-
-            Name pasedConacatData = new Name();
-
-            pasedConacatData = NameParser.ParseName("Herr Prof. Dr. rer. nat. van de Güllefass-Stinkstiefel, Eckart Carsten");
-
-            Assert.AreEqual(expectedGender, pasedConacatData.Gender);
-            Assert.AreEqual(expectedLastName, pasedConacatData.LastName);
-            Assert.AreEqual(expectedSalutation, pasedConacatData.Salutation);
-            Assert.AreEqual(expectedMiddleName, pasedConacatData.MiddleName);
-            Assert.AreEqual(expectedFirstName, pasedConacatData.FirstName);
-            Assert.AreEqual(expectedTitle, pasedConacatData.Title);
-            Assert.AreEqual(expectedGreeting, pasedConacatData.Greeting);
+            // Parse name and compare to expected name
+            using (var parser = new NameParser())
+            {
+                Name parsedName = parser.ParseName("Herr Prof. Dr. rer. nat. van de Güllefass-Stinkstiefel, Eckart Carsten");
+                Assert.AreEqual(expectedName, parsedName);
+            }
         }
 
-        [TestMethod]
-        public void ValidGreetingMale()
-        {
-            string expectedGreetingMale = "Sehr geehrter Herr Prof. Sandro Freiherr vom Wald";
-            string greeetingMale = NameParser.GetGreeting("Freiherr vom Wald", "Sandro", "Herr", "Prof.");
+        //[TestMethod]
+        //public void ValidGreetingMale()
+        //{
+        //    string expectedGreetingMale = "Sehr geehrter Herr Prof. Sandro Freiherr vom Wald";
+        //    string greeetingMale = NameParser.GetGreeting("Freiherr vom Wald", "Sandro", "Herr", "Prof.");
 
-            Assert.AreEqual(expectedGreetingMale, greeetingMale);
-        }
+        //    Assert.AreEqual(expectedGreetingMale, greeetingMale);
+        //}
 
-        [TestMethod]
-        public void ValidGreetingFemale()
-        {
-            string expectedGreetingFemale = "Sehr geehrte Frau Dr. Willma Freiherr vom Wald";
-            string greeetingFemale = NameParser.GetGreeting("Freiherr vom Wald", "Willma", "Frau", "Dr.");
+        //[TestMethod]
+        //public void ValidGreetingFemale()
+        //{
+        //    string expectedGreetingFemale = "Sehr geehrte Frau Dr. Willma Freiherr vom Wald";
+        //    string greeetingFemale = NameParser.GetGreeting("Freiherr vom Wald", "Willma", "Frau", "Dr.");
 
-            Assert.AreEqual(expectedGreetingFemale, greeetingFemale);
-        }
+        //    Assert.AreEqual(expectedGreetingFemale, greeetingFemale);
+        //}
 
-        [TestMethod]
-        public void ValidGreeting()
-        {
-            //achtung 2 leerzeichen
-            string expectedGreeting = "Guten Tag  Dr. Willma Freiherr vom Wald";
-            string greeeting = NameParser.GetGreeting("Freiherr vom Wald", "Willma", "", "Dr.");
+        //[TestMethod]
+        //public void ValidGreeting()
+        //{
+        //    //achtung 2 leerzeichen
+        //    string expectedGreeting = "Guten Tag  Dr. Willma Freiherr vom Wald";
+        //    string greeeting = NameParser.GetGreeting("Freiherr vom Wald", "Willma", "", "Dr.");
 
-            Assert.AreEqual(expectedGreeting, greeeting);
-        }
+        //    Assert.AreEqual(expectedGreeting, greeeting);
+        //}
 
-        [TestMethod]
-        public void ValidMiddleName()
-        {
-            List<string> elements = new List<string>();
-            elements.Add("Andreas");
-            elements.Add("Simon");
+        //[TestMethod]
+        //public void ValidMiddleName()
+        //{
+        //    List<string> elements = new List<string>();
+        //    elements.Add("Andreas");
+        //    elements.Add("Simon");
 
-            string expectedFirstName = "Andreas Simon";
+        //    string expectedFirstName = "Andreas Simon";
 
-            string firstName = NameParser.GetMiddleName(elements);
+        //    string firstName = NameParser.GetMiddleName(elements);
 
-            Assert.AreEqual(firstName, expectedFirstName);
-        }
+        //    Assert.AreEqual(firstName, expectedFirstName);
+        //}
 
-        [TestMethod]
-        public void ValidNoMiddleName()
-        {
-            List<string> elements = new List<string>();
-
-
-            string expectedFirstName = "keine Angabe";
-
-            string firstName = NameParser.GetMiddleName(elements);
-
-            Assert.AreEqual(firstName, expectedFirstName);
-        }
-
-        [TestMethod]
-        public void ValidFirstName()
-        {
-            List<string> elements = new List<string>();            
-            elements.Add("Andreas");
-            elements.Add("Simon");
-            
-            string expectedFirstName = "Andreas";
-
-            string firstName = NameParser.GetFirstName(elements);
-
-            Assert.AreEqual(firstName, expectedFirstName);
-        }
-
-        [TestMethod]
-        public void ValidNoTitle()
-        {
-            List<string> elements = new List<string>();            
-            elements.Add("Simon");
-
-            string expectedTitle = "keine Angabe";
-
-            string title = NameParser.GetTitle(elements);
-
-            Assert.AreEqual(title, expectedTitle);
-        }
-
-        [TestMethod]
-        public void ValidTitle()
-        {
-            List<string> elements = new List<string>();
-            elements.Add("Dr.-Ing.");
-            elements.Add("Dr.");
-            elements.Add("rer.");
-            elements.Add("nat.");
-            elements.Add("Dr.");
-            elements.Add("h.c.");
-            elements.Add("mult.");
-            elements.Add("Simon");
-            
-            string expectedTitle = "Dr.-Ing. Dr. rer. nat. Dr. h.c. mult.";
-
-            string title = NameParser.GetTitle(elements);
-
-            Assert.AreEqual(title, expectedTitle);
-        }
-
-        [TestMethod]
-        public void ValidSalutationMale()
-        {      
-
-            List<string> elements = new List<string>();
-            elements.Add("Herr");
-            elements.Add("Dr.");
-
-            string expectedSalutationMale = "Herr";
-            string salutationMale = NameParser.GetSalutation(elements);
-
-            Assert.AreEqual(salutationMale, expectedSalutationMale);
-            //Assert.AreEqual(salutationMale[1], expectedList);
-
-        }
-
-        [TestMethod]
-        public void ValidSalutationFemale()
-        {
-            List<string> elements = new List<string>();
-            elements.Add("Ms");
-            elements.Add("Dr.");
-
-            string expectedSalutationFemale = "Ms";
-            string salutationFemale = NameParser.GetSalutation(elements);
+        //[TestMethod]
+        //public void ValidNoMiddleName()
+        //{
+        //    List<string> elements = new List<string>();
 
 
-            Assert.AreEqual(salutationFemale, expectedSalutationFemale);
-        }
+        //    string expectedFirstName = "keine Angabe";
 
-        [TestMethod]
-        public void ValidSalutation()
-        {
-            List<string> elements = new List<string>();
-            elements.Add("Prof.");
-            elements.Add("Dr.");
+        //    string firstName = NameParser.GetMiddleName(elements);
 
-            string expectedSalutation = "keine Angabe";
-            string salutation = NameParser.GetSalutation(elements);
+        //    Assert.AreEqual(firstName, expectedFirstName);
+        //}
+
+        //[TestMethod]
+        //public void ValidFirstName()
+        //{
+        //    List<string> elements = new List<string>();            
+        //    elements.Add("Andreas");
+        //    elements.Add("Simon");
+
+        //    string expectedFirstName = "Andreas";
+
+        //    string firstName = NameParser.GetFirstName(elements);
+
+        //    Assert.AreEqual(firstName, expectedFirstName);
+        //}
+
+        //[TestMethod]
+        //public void ValidNoTitle()
+        //{
+        //    List<string> elements = new List<string>();            
+        //    elements.Add("Simon");
+
+        //    string expectedTitle = "keine Angabe";
+
+        //    string title = NameParser.GetTitle(elements);
+
+        //    Assert.AreEqual(title, expectedTitle);
+        //}
+
+        //[TestMethod]
+        //public void ValidTitle()
+        //{
+        //    List<string> elements = new List<string>();
+        //    elements.Add("Dr.-Ing.");
+        //    elements.Add("Dr.");
+        //    elements.Add("rer.");
+        //    elements.Add("nat.");
+        //    elements.Add("Dr.");
+        //    elements.Add("h.c.");
+        //    elements.Add("mult.");
+        //    elements.Add("Simon");
+
+        //    string expectedTitle = "Dr.-Ing. Dr. rer. nat. Dr. h.c. mult.";
+
+        //    string title = NameParser.GetTitle(elements);
+
+        //    Assert.AreEqual(title, expectedTitle);
+        //}
+
+        //[TestMethod]
+        //public void ValidSalutationMale()
+        //{      
+
+        //    List<string> elements = new List<string>();
+        //    elements.Add("Herr");
+        //    elements.Add("Dr.");
+
+        //    string expectedSalutationMale = "Herr";
+        //    string salutationMale = NameParser.GetSalutation(elements);
+
+        //    Assert.AreEqual(salutationMale, expectedSalutationMale);
+        //    //Assert.AreEqual(salutationMale[1], expectedList);
+
+        //}
+
+        //[TestMethod]
+        //public void ValidSalutationFemale()
+        //{
+        //    List<string> elements = new List<string>();
+        //    elements.Add("Ms");
+        //    elements.Add("Dr.");
+
+        //    string expectedSalutationFemale = "Ms";
+        //    string salutationFemale = NameParser.GetSalutation(elements);
 
 
-            Assert.AreEqual(salutation, expectedSalutation);
-        }
+        //    Assert.AreEqual(salutationFemale, expectedSalutationFemale);
+        //}
 
-        [TestMethod]
-        public void ValidGenderMale()
-        {
-            string expectedGenderMale = "maennlich";
-            string genderMale = NameParser.GetGender("Herr");
+        //[TestMethod]
+        //public void ValidSalutation()
+        //{
+        //    List<string> elements = new List<string>();
+        //    elements.Add("Prof.");
+        //    elements.Add("Dr.");
 
-            Assert.AreEqual(expectedGenderMale, genderMale);
-
-        }
-
-        [TestMethod]
-        public void ValidGenderFemale()
-        {
-            string expectedGenderFemale = "weiblich";
-            string genderFemale = NameParser.GetGender("Frau");
+        //    string expectedSalutation = "keine Angabe";
+        //    string salutation = NameParser.GetSalutation(elements);
 
 
-            Assert.AreEqual(expectedGenderFemale, genderFemale);
+        //    Assert.AreEqual(salutation, expectedSalutation);
+        //}
 
-        }
+        //[TestMethod]
+        //public void ValidGenderMale()
+        //{
+        //    string expectedGenderMale = "maennlich";
+        //    string genderMale = NameParser.GetGender("Herr");
 
-        [TestMethod]
-        public void ValidGender()
-        {
-           
-            string expectedGenderDiverse = "keine Angabe";
-            string genderDiverse = NameParser.GetGender("Weder Herr noch Frau in der Anrede");
+        //    Assert.AreEqual(expectedGenderMale, genderMale);
 
-            Assert.AreEqual(expectedGenderDiverse, genderDiverse);
-        }
+        //}
 
-        [TestMethod]
-        public void ValidNoblename()
-        {
-
-            List<string> elements = new List<string>();
-            elements.Add("Ms.");
-            elements.Add("Dr.");
-            elements.Add("Max");
-            elements.Add("van");
-            elements.Add("de");
-            elements.Add("Hasenfratz-Schreier");
-
-            string nobleName = NameParser.GetNobleName(elements);
-
-            string expectedNobleName = "van de Hasenfratz-Schreier";
-
-            Assert.AreEqual(expectedNobleName, nobleName);
-
-        }
-
-        [TestMethod]
-        public void ValidSingleLastName()
-        {
-            List<string> elements = new List<string>();
-            elements.Add("Mr.");
-            elements.Add("Dr.");
-            elements.Add("Max");        
-            elements.Add("Rosenbusch");
+        //[TestMethod]
+        //public void ValidGenderFemale()
+        //{
+        //    string expectedGenderFemale = "weiblich";
+        //    string genderFemale = NameParser.GetGender("Frau");
 
 
-            string nobleName = NameParser.GetNobleName(elements);
+        //    Assert.AreEqual(expectedGenderFemale, genderFemale);
 
-            string expectedNobleName = "Rosenbusch";
+        //}
 
-            Assert.AreEqual(expectedNobleName, nobleName);
+        //[TestMethod]
+        //public void ValidGender()
+        //{
 
-        }
+        //    string expectedGenderDiverse = "keine Angabe";
+        //    string genderDiverse = NameParser.GetGender("Weder Herr noch Frau in der Anrede");
+
+        //    Assert.AreEqual(expectedGenderDiverse, genderDiverse);
+        //}
+
+        //[TestMethod]
+        //public void ValidNoblename()
+        //{
+
+        //    List<string> elements = new List<string>();
+        //    elements.Add("Ms.");
+        //    elements.Add("Dr.");
+        //    elements.Add("Max");
+        //    elements.Add("van");
+        //    elements.Add("de");
+        //    elements.Add("Hasenfratz-Schreier");
+
+        //    string nobleName = NameParser.GetNobleName(elements);
+
+        //    string expectedNobleName = "van de Hasenfratz-Schreier";
+
+        //    Assert.AreEqual(expectedNobleName, nobleName);
+
+        //}
+
+        //[TestMethod]
+        //public void ValidSingleLastName()
+        //{
+        //    List<string> elements = new List<string>();
+        //    elements.Add("Mr.");
+        //    elements.Add("Dr.");
+        //    elements.Add("Max");        
+        //    elements.Add("Rosenbusch");
+
+
+        //    string nobleName = NameParser.GetNobleName(elements);
+
+        //    string expectedNobleName = "Rosenbusch";
+
+        //    Assert.AreEqual(expectedNobleName, nobleName);
+
+        //}
 
     }
 }

@@ -1,8 +1,6 @@
 ﻿using ContactParser.App.Helpers;
 using ContactParser.App.Models;
 using ContactParser.App.Services;
-using System.Text.RegularExpressions;
-using System.Windows;
 
 namespace ContactParser.App.ViewModels
 {
@@ -234,7 +232,11 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteParse(object parameter)
         {
-            Name parsedName = NameParser.ParseName(InputField);
+            Name parsedName;
+            using (var nameParser = new NameParser())
+            {
+                parsedName = nameParser.ParseName(InputField);
+            }
 
             Gender = parsedName.Gender;
             FirstName = parsedName.FirstName;
