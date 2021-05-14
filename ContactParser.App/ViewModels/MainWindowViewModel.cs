@@ -234,7 +234,7 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteParse(object parameter)
         {
-            Regex regexNumbers = new Regex(@"[0-9/\<>|{}ß\\´`'#^°_!§$%&()\[\]+*""]");
+            Regex regexNumbers = new Regex(@"[0-9/\<>|{}:;?\\´`'#^°_!§$%&()\[\]+*""]");
             Regex regexWhiteSpaces = new Regex(@"\s+");
 
             // Trim Whitspaces at the begin and end of the Input
@@ -259,7 +259,7 @@ namespace ContactParser.App.ViewModels
             if (regexNumbers.IsMatch(InputField))
             {
                 InputField = string.Empty;
-                MessageBox.Show("Invalide Input");
+                MessageBox.Show("Invalide Input! \nThe following characters are allowed: . , - \nThe following characters are not allowed: \n0 1 2 3 4 5 6 7 8 9 : ; / < > | { } ? \\ ´ ` ' # ^ ° _ ! § $ % & ( ) [ ] + * \"");
                 return;
             }
 
