@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Windows;
@@ -29,13 +30,12 @@ namespace ContactParser.App.Services
             {
                 try
                 {
-                    titleManager.CreateTitleFile();
-                    FileName = titleManager.TitlePath;
-                    JsonContent = titleManager.TitleContent;
+                    FileName = titleManager.GetOrCreateFile();
+                    JsonContent = titleManager.GetContent();
                 }
                 catch (Exception)
                 {
-                    throw;
+                    throw new IOException("File could not be created/read");
                 }
             }
         }

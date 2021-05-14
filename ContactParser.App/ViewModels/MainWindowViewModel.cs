@@ -1,4 +1,8 @@
-﻿using ContactParser.App.Helpers;
+﻿using System;
+using System.IO;
+using System.Text.Json;
+using System.Windows;
+using ContactParser.App.Helpers;
 using ContactParser.App.Models;
 using ContactParser.App.Services;
 
@@ -193,7 +197,29 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteAddTitle(object parameter)
         {
-
+            using (var titleManager = new TitleManager())
+            {
+                try
+                {
+                    titleManager.WriteNewTitle(NewTitle);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("Ein Lese- oder Schreibvorgang ist fehlgeschlagen");
+                }
+                catch (JsonException)
+                {
+                    MessageBox.Show("Beim Deserialisieren des JSON trat ein Fehler auf");
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("Die Eingabe für eine Funktion war fehlerhaft");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Ein schwerwiegender Fehler ist aufgetreten");
+                }
+            }
         }
 
         /// <summary>
@@ -233,17 +259,27 @@ namespace ContactParser.App.ViewModels
         public void ExecuteParse(object parameter)
         {
             Name parsedName;
-            using (var nameParser = new NameParser())
-            {
-                parsedName = nameParser.ParseName(InputField);
-            }
 
-            Gender = parsedName.Gender;
-            FirstName = parsedName.FirstName;
-            LastName = parsedName.LastName;
-            Title = parsedName.Title;
-            Salutation = parsedName.Salutation;
-            ConcatenatedName = parsedName.Greeting;
+            try
+            {
+                // Parse the input
+                using (var nameParser = new NameParser())
+                {
+                    parsedName = nameParser.ParseName(InputField);
+                }
+
+                // Fill the text fields
+                Gender = parsedName.Gender;
+                FirstName = parsedName.FirstName;
+                LastName = parsedName.LastName;
+                Title = parsedName.Title;
+                Salutation = parsedName.Salutation;
+                ConcatenatedName = parsedName.Greeting;
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Beim Erstellen oder Lesen der Hilfsdatei für die Titel ist ein Fehler aufgetreten");
+            }
         }
         #endregion
     }
