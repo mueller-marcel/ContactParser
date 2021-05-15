@@ -254,9 +254,9 @@ namespace ContactParser.App.ViewModels
                 ConcatenatedName = parsedName.Greeting;
 
                 // If FirstName is invalid show advice
-                if (parsedName.FirstName.Equals("Invalid"))
+                if (parsedName.Salutation.Equals("keine Angabe"))
                 {
-                    MessageBox.Show("Invalide Input! \nInput must contain at least first name and last name(e.g. \"John Doe\").");
+                    MessageBox.Show("Es konnte kein Geschlecht zugeordnet werden. Bitte überprüfen Sie die vorgeschlagene Ausgabe oder machen Sie das Geschlecht in der Eingabe deutlich");
                     return;
                 }
             }
