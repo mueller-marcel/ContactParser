@@ -234,7 +234,7 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteParse(object parameter)
         {
-            Regex regexNumbers = new Regex(@"[0-9/\<>|{}:;?\\´`'#^°_!§$%&()\[\]+*""]");
+            Regex regexNumbers = new Regex(@"[0-9/\<>|{}:;?\\´`'#^°_!§$%&()\[\]+~@€²³*""]");
             Regex regexWhiteSpaces = new Regex(@"\s+");
 
             // Trim Whitspaces at the begin and end of the Input
@@ -269,20 +269,26 @@ namespace ContactParser.App.ViewModels
                 parsedName = nameParser.ParseName(InputField);
             }
 
-            
+            // IF FirstName is invalid show advice
+            if (parsedName.FirstName.Equals("Invalid"))
+            {
+                MessageBox.Show("Invalide Input! \nInput must contain at least first name and last name(e.g. \"John Doe\").");
+                return;
+            }
 
             Gender = parsedName.Gender;
             FirstName = parsedName.FirstName;
             LastName = parsedName.LastName;
             Title = parsedName.Title;
             Salutation = parsedName.Salutation;
-            ConcatenatedName = parsedName.Greeting;
+            ConcatenatedName = parsedName.Greeting;       
 
             // If Salutation unidentifiable show advice
             if (parsedName.Salutation == "keine Angabe")
             {
                 MessageBox.Show("Please check the proposed salutation.");
             }
+
         }
         #endregion
     }
