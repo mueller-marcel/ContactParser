@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows;
 using ContactParser.App.Models;
 namespace ContactParser.App.Services
@@ -40,13 +41,46 @@ namespace ContactParser.App.Services
             }
         }
 
+        private string ValidateAndPrepareInput(string input)
+        {
+            // Declarations
+            Regex regexNumbers = new Regex(@"[0-9/\<>|{}:;?\\´`'#^°_!§$%&()\[\]+~@€²³*""]");
+            Regex regexWhiteSpaces = new Regex(@"\s+");
+
+            // Trim whitspaces
+            input = input.Trim();
+
+            // If Input contains several Whitespaces in a row
+            if (regexWhiteSpaces.IsMatch(input))
+            {
+                input = Regex.Replace(input, @"\s+", " ");
+            }
+
+            // If Input contains Numbers or no Whitspaces
+            if (!input.Contains(" "))
+            {
+                throw new FormatException("Input must contain at least first and lastname");
+            }
+
+            // If Input contains Number
+            if (regexNumbers.IsMatch(input))
+            {
+                throw new ArgumentException("Input can only contain characters a-z, A-Z . , -");
+            }
+
+            return input;
+        }
+
         /// <summary>
         /// Parse the input contact string
         /// </summary>
         /// <param name="input"></param>
         /// <returns>An instance of type <see cref="Name"/> containing all the information about the contact</returns>
+        /// <exception cref="FormatException">Thrown, when no firstname was entered</exception>
         public Name ParseName(string input)
         {
+            // Validate input
+            input = ValidateAndPrepareInput(input);
 
             // Splitting the input string to List based on empty characters
             List<string> nameElements = input.Split(' ').ToList();
@@ -65,8 +99,16 @@ namespace ContactParser.App.Services
             // Extract the Title 
             string title = GetTitle(titles.Elements);
 
-            // Extract the Firstname 
-            string firstName = GetFirstName(titles.Elements);
+            string firstName;
+            try
+            {
+                // Extract the Firstname 
+                firstName = GetFirstName(titles.Elements);
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
 
             // Extract the Middlename
             string middleName = GetMiddleName(titles.Elements);
@@ -236,19 +278,19 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The FirstName as <see cref="string"/></returns>
+        /// <exception cref="FormatException">Thrown, when no firstname could be recognized</exception>
         private string GetFirstName(List<string> adresselement)
         {
-            string firstName = string.Empty;
             try
-            {              
-                firstName = adresselement[0];
+            {
+                string firstName = adresselement[0];
                 adresselement.RemoveAt(0);
                 return firstName;
             }
-            catch{                
-                firstName = "Invalid";
-                return firstName;
-            }          
+            catch (Exception)
+            {
+                throw new FormatException("There must be at least a firstname and a lastname");
+            }
         }
 
 
@@ -372,7 +414,7 @@ namespace ContactParser.App.Services
                 return greeting;
             }
             //English
-            else if (salutation.Equals("Mr") || salutation.Equals("Ms") || salutation.Equals("Mrs" ) || salutation.Equals("Mr.") || salutation.Equals("Ms.") || salutation.Equals("Mrs."))
+            else if (salutation.Equals("Mr") || salutation.Equals("Ms") || salutation.Equals("Mrs") || salutation.Equals("Mr.") || salutation.Equals("Ms.") || salutation.Equals("Mrs."))
             {
                 string greeting = "Dear " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
@@ -413,7 +455,7 @@ namespace ContactParser.App.Services
 
             else
             {
-                string greeting = "Guten Tag " + " " + title + " " + firstName + " " + lastName;                       
+                string greeting = "Guten Tag " + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
         }
