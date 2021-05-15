@@ -1,4 +1,8 @@
-﻿using ContactParser.App.Helpers;
+﻿using System;
+using System.IO;
+using System.Text.Json;
+using System.Windows;
+using ContactParser.App.Helpers;
 using ContactParser.App.Models;
 using ContactParser.App.Services;
 using System;
@@ -196,7 +200,29 @@ namespace ContactParser.App.ViewModels
         /// <param name="parameter">Parameter to submit some data</param>
         public void ExecuteAddTitle(object parameter)
         {
-
+            using (var titleManager = new TitleManager())
+            {
+                try
+                {
+                    titleManager.WriteNewTitle(NewTitle);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("Ein Lese- oder Schreibvorgang ist fehlgeschlagen");
+                }
+                catch (JsonException)
+                {
+                    MessageBox.Show("Beim Deserialisieren des JSON trat ein Fehler auf");
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("Die Eingabe für eine Funktion war fehlerhaft");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Ein schwerwiegender Fehler ist aufgetreten");
+                }
+            }
         }
 
         /// <summary>
@@ -252,13 +278,17 @@ namespace ContactParser.App.ViewModels
                 Title = parsedName.Title;
                 Salutation = parsedName.Salutation;
                 ConcatenatedName = parsedName.Greeting;
-
+                
                 // If FirstName is invalid show advice
                 if (parsedName.Salutation.Equals("keine Angabe"))
                 {
                     MessageBox.Show("Es konnte kein Geschlecht zugeordnet werden. Bitte überprüfen Sie die vorgeschlagene Ausgabe oder machen Sie das Geschlecht in der Eingabe deutlich");
                     return;
                 }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Beim Erstellen oder Lesen der Hilfsdatei für die Titel ist ein Fehler aufgetreten");
             }
             catch (ArgumentException)
             {

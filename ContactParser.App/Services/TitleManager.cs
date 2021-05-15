@@ -1,60 +1,90 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
+using ContactParser.App.Models;
 
 namespace ContactParser.App.Services
 {
     public class TitleManager : IDisposable
     {
         /// <summary>
-        /// Holds the path where the ressource file shall be outsourced
+        /// Get the content either from titles.json on the desktop or the default text from the assembly
         /// </summary>
-        public string TitlePath { get; set; }
-
-        /// <summary>
-        /// Holds the content of the ressource content of Data.json
-        /// </summary>
-        public string TitleContent { get; set; }
-
-        /// <summary>
-        /// Creates a new file with the json as content in the same directory as the executing assembly
-        /// </summary>
-        /// <exception cref="Exception">Thrown, when a file could not be read or written</exception>
-        public void CreateTitleFile()
+        /// <returns>The text from titles.json or the assembly</returns>
+        /// <exception cref="IOException">Thrown, when reading from the file or the assembly goes wrong</exception>
+        public string GetContent()
         {
-            Stream titleStream;
+            // Initializations
+            string filePath, content;
 
-            // Get the path and the content as stream
-            Uri location = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
-            TitlePath = Path.Combine(location.AbsolutePath, "titles.json");
+            // Try to read the titles.json (Create it if not done so far)
             try
             {
-                titleStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ContactParser.App.Data.Data.json");
+                filePath = GetOrCreateFile();
+                content = File.ReadAllText(filePath);
             }
             catch (Exception)
             {
-                throw;
+                throw new IOException("Error while creating and reading from titles.json");
             }
 
-            using (StreamReader streamReader = new StreamReader(titleStream))
+            // Read from the assembly
+            if (content.Equals(string.Empty))
             {
                 try
                 {
-                    TitleContent = streamReader.ReadToEnd();
+                    content = GetTextFromAssembly();
                 }
                 catch (Exception)
                 {
-                    throw;
+                    throw new IOException("Error while reading from the assembly");
+                }
+                return content;
+            }
+            else
+            {
+                try
+                {
+                    content = File.ReadAllText(filePath);
+                    return content;
+                }
+                catch (Exception)
+                {
+                    throw new IOException("Error while reading the titles.json");
                 }
             }
+        }
 
-            // Write content to new file in the same directory as the executing assembly
+        /// <summary>
+        /// Creates an empty file if there is no titles file on the desktop
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown, when the arguments for the path are wrong</exception>
+        /// <exception cref="PlatformNotSupportedException">Thrown, when the desktop and folder is not available due to OS incompatibilities</exception>
+        /// <exception cref="Exception">Thrown, when anything else gone wrong</exception>
+        public string GetOrCreateFile()
+        {
             try
             {
-                using (StreamWriter streamWriter = File.CreateText(TitlePath))
+                Uri location = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                string filePath = Path.Combine(location.AbsolutePath, "titles.json");
+
+                if (File.Exists(filePath))
                 {
-                    streamWriter.WriteLine(TitleContent);
+                    return filePath;
                 }
+
+                // Create empty file and dispose
+                File.Create(filePath).Dispose();
+                return filePath;
+            }
+            catch (ArgumentException e)
+            {
+                throw e;
+            }
+            catch (PlatformNotSupportedException e)
+            {
+                throw e;
             }
             catch (Exception e)
             {
@@ -63,12 +93,130 @@ namespace ContactParser.App.Services
         }
 
         /// <summary>
-        /// Release the managed properties
+        /// Retrieves the json text in the assembly
         /// </summary>
-        public void Dispose()
+        /// <returns>The text from the assembly as text</returns>
+        /// <exception cref="FileLoadException">Thrown when an <see cref="IOException"/> was wrong by the GetManifestResourceStream Method</exception>
+        /// <exception cref="BadImageFormatException">Thrown, when the name is not a valid assembly</exception>
+        /// <exception cref="ArgumentException">Thrown, when the argument for the <see cref="StreamReader"/> was null or wrong</exception>
+        /// <exception cref="OutOfMemoryException">Thrown, when ran out of RAM when reading the titles.json stream</exception>
+        /// <exception cref="IOException">Thrown, when an IO error occurs while reading the <see cref="Stream"/></exception>
+        private string GetTextFromAssembly()
         {
-            TitleContent = null;
-            TitlePath = null;
+            Stream titleStream;
+            try
+            {
+                titleStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ContactParser.App.Data.Data.json");
+            }
+            catch (FileLoadException e)
+            {
+                throw e;
+            }
+            catch (BadImageFormatException e)
+            {
+                throw e;
+            }
+
+            try
+            {
+                using (var streamReader = new StreamReader(titleStream))
+                {
+                    return streamReader.ReadToEnd();
+                }
+            }
+            catch (ArgumentException e)
+            {
+                throw e;
+            }
+            catch (OutOfMemoryException e)
+            {
+                throw e;
+            }
+            catch (IOException e)
+            {
+                throw e;
+            }
         }
+
+        /// <summary>
+        /// Writes a new title to the json file on the desktop
+        /// </summary>
+        /// <param name="title">The title to write</param>
+        /// <exception cref="IOException">Thrown, when reading or writing to the file failed</exception>
+        /// <exception cref="ArgumentException">Thrown, when an argument was wrong</exception>
+        /// <exception cref="JsonException">Thrown, when the JSON could not be serialized</exception>
+        /// <exception cref="Exception">Thrown, when another fatal error occured</exception>
+        public void WriteNewTitle(string title)
+        {
+            // Declarations
+            string filePath, content;
+
+            // Split input and get file
+            var titleElements = title.Split(" ");
+
+            try
+            {
+                // Get or create the file and return the path
+                filePath = GetOrCreateFile();
+
+                // Read all from file
+                content = File.ReadAllText(filePath);
+            }
+            catch (Exception)
+            {
+                throw new IOException("Error while reading from titles.json");
+            }
+
+            // Check the content whether its empty or filled
+            if (string.IsNullOrEmpty(content))
+            {
+                try
+                {
+                    // Read from the assembly
+                    string ressourceContent = GetTextFromAssembly();
+                    TitleDTO titles = JsonSerializer.Deserialize<TitleDTO>(ressourceContent);
+                    titles.Title.AddRange(titleElements);
+                    File.WriteAllText(filePath, JsonSerializer.Serialize(titles));
+                }
+                catch (ArgumentException)
+                {
+                    throw new ArgumentException("An argument was wrong");
+                }
+                catch (JsonException)
+                {
+                    throw new JsonException("JSON could not be serialized");
+                }
+                catch (Exception)
+                {
+                    throw new Exception("An fatal error occured");
+                }
+            }
+            else
+            {
+                try
+                {
+                    TitleDTO titles = JsonSerializer.Deserialize<TitleDTO>(content);
+                    titles.Title.AddRange(titleElements);
+                    File.WriteAllText(filePath, JsonSerializer.Serialize(titles));
+                }
+                catch (ArgumentException)
+                {
+                    throw new ArgumentException("An argument was wrong");
+                }
+                catch (JsonException)
+                {
+                    throw new JsonException("JSON could not be serialized");
+                }
+                catch (Exception)
+                {
+                    throw new Exception("An fatal error occured");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Implementation of <see cref="IDisposable"/>
+        /// </summary>
+        public void Dispose() { }
     }
 }

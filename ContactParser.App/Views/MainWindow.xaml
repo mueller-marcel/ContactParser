@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <!--Definition of the input field-->
-        <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center">
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center">
             <Label 
                 HorizontalAlignment="Center" 
                 Content="Eingabefeld"/>
@@ -104,24 +104,25 @@
                 Text="{Binding Source={StaticResource mainWindowViewModel}, Path=LastName}"/>
         </StackPanel>
 
-        <!--Definition of the input field to submit new titles-->
-        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+        <!--Definition of the text field to enter new titles-->
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top">
             <Label 
                 HorizontalAlignment="Center"
-                Content="Neuer Titel" />
-            <TextBox 
+                Content="Neuer Titel"/>
+            <TextBox
+                Margin="30,0,30,0"
                 HorizontalAlignment="Stretch"
-                Margin="30,0,30,0" 
                 Text="{Binding Source={StaticResource mainWindowViewModel}, Path=NewTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button
-                Margin="30,10,30,10"
-                HorizontalAlignment="Stretch"
-                Content="Hinzufügen" 
+            <Button 
+                HorizontalAlignment="Center"
+                Content="Hinzufügen"
+                Margin="0,30,0,0"
+                Padding="20,0,20,0"
                 Command="{Binding Source={StaticResource mainWindowViewModel}, Path=AddTitleCommand}"/>
         </StackPanel>
 
         <!--Definition of the text field to show the concatenated name-->
-        <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center">
+        <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top">
             <Label 
                 HorizontalAlignment="Center"
                 Content="Zusammengesetzte Anrede"/>
