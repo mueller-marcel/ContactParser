@@ -29,9 +29,12 @@
 
   "SalutationIndicator": [
     "keine Angabe",
+    "herr",
     "Herr",
     "Herrn",
+    "herrn",
     "Frau",
+    "frau",
     "Mr",
     "Mr.",
     "Ms",
@@ -50,6 +53,7 @@
 
   "GenderFemale": [
     "weiblich",
+    "weiblich",
     "female",
     "female",
     "female",
@@ -62,6 +66,7 @@
 
   "SalutationsFemale": [
     "Frau",
+    "frau",
     "Ms",
     "Ms.",
     "Mrs",
@@ -75,6 +80,8 @@
   "GenderMale": [
     "maennlich",
     "maennlich",
+    "maennlich",
+    "maennlich",
     "male",
     "male",
     "maschile",
@@ -86,6 +93,8 @@
   "SalutationsMale": [
     "Herr",
     "Herrn",
+    "herr",
+    "herrn",
     "Mr",
     "Mr.",
     "Sig.",

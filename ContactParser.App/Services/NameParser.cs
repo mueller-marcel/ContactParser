@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows;
 using ContactParser.App.Models;
 namespace ContactParser.App.Services
@@ -40,13 +41,46 @@ namespace ContactParser.App.Services
             }
         }
 
+        private string ValidateAndPrepareInput(string input)
+        {
+            // Declarations
+            Regex regexNumbers = new Regex(@"[0-9/\<>|{}:;?\\´`'#^°_!§$%&()\[\]+~@€²³*""]");
+            Regex regexWhiteSpaces = new Regex(@"\s+");
+
+            // Trim whitspaces
+            input = input.Trim();
+
+            // If Input contains several Whitespaces in a row
+            if (regexWhiteSpaces.IsMatch(input))
+            {
+                input = Regex.Replace(input, @"\s+", " ");
+            }
+
+            // If Input contains Numbers or no Whitspaces
+            if (!input.Contains(" "))
+            {
+                throw new FormatException("Input must contain at least first and lastname");
+            }
+
+            // If Input contains Number
+            if (regexNumbers.IsMatch(input))
+            {
+                throw new ArgumentException("Input can only contain characters a-z, A-Z . , -");
+            }
+
+            return input;
+        }
+
         /// <summary>
         /// Parse the input contact string
         /// </summary>
         /// <param name="input"></param>
         /// <returns>An instance of type <see cref="Name"/> containing all the information about the contact</returns>
+        /// <exception cref="FormatException">Thrown, when no firstname was entered</exception>
         public Name ParseName(string input)
         {
+            // Validate input
+            input = ValidateAndPrepareInput(input);
 
             // Splitting the input string to List based on empty characters
             List<string> nameElements = input.Split(' ').ToList();
@@ -65,8 +99,16 @@ namespace ContactParser.App.Services
             // Extract the Title 
             string title = GetTitle(titles.Elements);
 
-            // Extract the Firstname 
-            string firstName = GetFirstName(titles.Elements);
+            string firstName;
+            try
+            {
+                // Extract the Firstname 
+                firstName = GetFirstName(titles.Elements);
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
 
             // Extract the Middlename
             string middleName = GetMiddleName(titles.Elements);
@@ -81,7 +123,7 @@ namespace ContactParser.App.Services
 
 
             // If salutation = "keine Angabe" replace with "" for the Greeting
-            if (salutation == "keine Angabe")
+            if (salutation.Equals("keine Angabe"))
             {
                 salutationTemp = "";
             }
@@ -236,13 +278,21 @@ namespace ContactParser.App.Services
         /// </summary>
         /// <param name="adresselement"></param>
         /// <returns>The FirstName as <see cref="string"/></returns>
+        /// <exception cref="FormatException">Thrown, when no firstname could be recognized</exception>
         private string GetFirstName(List<string> adresselement)
         {
-            string firstName;
-            firstName = adresselement[0];
-            adresselement.RemoveAt(0);
-            return firstName;
+            try
+            {
+                string firstName = adresselement[0];
+                adresselement.RemoveAt(0);
+                return firstName;
+            }
+            catch (Exception)
+            {
+                throw new FormatException("There must be at least a firstname and a lastname");
+            }
         }
+
 
         /// <summary>
         /// Extracts the Salutation
@@ -352,52 +402,52 @@ namespace ContactParser.App.Services
         /// <returns>The full greeting as <see cref="string"/></returns>     
         private string GetGreeting(string lastName, string firstName, string salutation, string title)
         {
-            // German
-            if (salutation == "Herr" || salutation == "Herrn")
+            //German
+            if (salutation.Equals("Herr") || salutation.Equals("Herrn") || salutation.Equals("herr") || salutation.Equals("herrn"))
             {
                 string greeting = "Sehr geehrter " + "Herr" + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            else if (salutation == "Frau")
+            else if (salutation.Equals("Frau") || salutation.Equals("frau"))
             {
-                string greeting = "Sehr geehrte " + salutation + " " + title + " " + firstName + " " + lastName;
+                string greeting = "Sehr geehrte " + "Frau" + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            // English
-            else if (salutation == "Mr" || salutation == "Ms" || salutation == "Mrs" || salutation == "Mr." || salutation == "Ms." || salutation == "Mrs.")
+            //English
+            else if (salutation.Equals("Mr") || salutation.Equals("Ms") || salutation.Equals("Mrs") || salutation.Equals("Mr.") || salutation.Equals("Ms.") || salutation.Equals("Mrs."))
             {
                 string greeting = "Dear " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            // Italian
-            else if (salutation == "Signora")
+            //Italy
+            else if (salutation.Equals("Signora"))
             {
                 string greeting = "Gentie " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            else if (salutation == "Sig.")
+            else if (salutation.Equals("Sig."))
             {
                 string greeting = "Egregio " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            // France
-            else if (salutation == "Mme" || salutation == "Mme.")
+            //France
+            else if (salutation.Equals("Mme") || salutation.Equals("Mme."))
             {
                 string greeting = "Madame " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            else if (salutation == "M" || salutation == "M.")
+            else if (salutation.Equals("M") || salutation.Equals("M."))
             {
                 string greeting = "Monsieur " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            // Spanish
-            else if (salutation == "Senora")
+            //Espanol
+            else if (salutation.Equals("Senora"))
             {
                 string greeting = "Estimada " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            else if (salutation == "Senor")
+            else if (salutation.Equals("Senor"))
             {
                 string greeting = "Estimado " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
@@ -406,11 +456,6 @@ namespace ContactParser.App.Services
             else
             {
                 string greeting = "Guten Tag " + " " + title + " " + firstName + " " + lastName;
-
-                if (firstName != "keine Angabe")
-                {
-                    MessageBox.Show("Bitte überprüfe die Vorgeschlagene Anrede.");
-                }
                 return greeting;
             }
         }
