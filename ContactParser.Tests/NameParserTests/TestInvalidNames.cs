@@ -8,6 +8,7 @@ namespace ContactParser.Tests.NameParserTests
     [TestClass]
     public class TestInvalidNames
     {
+        #region Test Methods
         /// <summary>
         /// Test a name without first name
         /// </summary>
@@ -41,5 +42,6 @@ namespace ContactParser.Tests.NameParserTests
                 }
             });
         }
+        #endregion
     }
 }

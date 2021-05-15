@@ -9,6 +9,7 @@ namespace ContactParser.Tests.TitleManagerTests
     [TestClass]
     public class TestGetContent
     {
+        #region Test Methods
         /// <summary>
         /// Test the retrieval of the content from the assembly
         /// </summary>
@@ -79,9 +80,11 @@ namespace ContactParser.Tests.TitleManagerTests
 
             Assert.AreEqual(expectedContent, actualContent);
         }
+        #endregion
 
+        #region Setup and Cleanup Methods
         /// <summary>
-        /// Initializes the file for <see cref="TestGetContent.GetContentFromFile"/>
+        /// Initializes the file for <see cref="GetContentFromFile"/>
         /// </summary>
         [TestInitialize]
         public void CreateFile()
@@ -116,5 +119,6 @@ namespace ContactParser.Tests.TitleManagerTests
                 File.Delete(filePath);
             }
         }
+        #endregion
     }
 }

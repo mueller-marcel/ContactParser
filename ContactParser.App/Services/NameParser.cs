@@ -11,6 +11,7 @@ namespace ContactParser.App.Services
 {
     public class NameParser : IDisposable
     {
+        #region Properties
         /// <summary>
         /// Holds the file name for the data file
         /// </summary>
@@ -20,10 +21,13 @@ namespace ContactParser.App.Services
         /// Holds the content of the data file
         /// </summary>
         public string JsonContent { get; set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Initializes the access to the title file
         /// </summary>
+        /// <exception cref="IOException">Thrown, when the helper file for the titles could not be read or created</exception>
         public NameParser()
         {
             using (var titleManager = new TitleManager())
@@ -39,7 +43,16 @@ namespace ContactParser.App.Services
                 }
             }
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Validates the input and removes double whitespaces
+        /// </summary>
+        /// <param name="input">The input to be validated</param>
+        /// <returns>The prepared input without double whitespaces</returns>
+        /// <exception cref="FormatException">Thrown, when the firstname could not be recognized</exception>
+        /// <exception cref="ArgumentException">Thrown, when the input contains invalid characters</exception>
         private string ValidateAndPrepareInput(string input)
         {
             // Declarations
@@ -76,10 +89,22 @@ namespace ContactParser.App.Services
         /// <param name="input"></param>
         /// <returns>An instance of type <see cref="Name"/> containing all the information about the contact</returns>
         /// <exception cref="FormatException">Thrown, when no firstname was entered</exception>
+        /// <exception cref="ArgumentException">Thrown, when the input contains invalid characters</exception>
         public Name ParseName(string input)
         {
-            // Validate input
-            input = ValidateAndPrepareInput(input);
+            try
+            {
+                // Validate input
+                input = ValidateAndPrepareInput(input);
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+            catch (ArgumentException e)
+            {
+                throw e;
+            }
 
             // Splitting the input string to List based on empty characters
             List<string> nameElements = input.Split(' ').ToList();
@@ -171,9 +196,9 @@ namespace ContactParser.App.Services
         }
 
         /// <summary>
-        /// Extract the NobleName
+        /// Extract the noble names
         /// </summary>
-        /// <param name="adresselement"></param>
+        /// <param name="adresselement">The parsed elements from the name</param>
         /// <returns>The lastName as <see cref="string"/></returns>
         private string GetNobleName(List<string> adresselement)
         {
@@ -236,9 +261,9 @@ namespace ContactParser.App.Services
         }
 
         /// <summary>
-        /// Gets the Gender
+        /// Gets the Gender, if no gender could be determined "keine Angabe" will be returned
         /// </summary>
-        /// <param name="salutation"></param>
+        /// <param name="salutation">The entered saluatation</param>
         /// <returns>The gender as <see cref="string"/></returns>
         private string GetGender(string salutation)
         {
@@ -273,9 +298,9 @@ namespace ContactParser.App.Services
         }
 
         /// <summary>
-        /// Extract the FirstName
+        /// Extracts the first name
         /// </summary>
-        /// <param name="adresselement"></param>
+        /// <param name="adresselement">The parsed elements from the name</param>
         /// <returns>The FirstName as <see cref="string"/></returns>
         /// <exception cref="FormatException">Thrown, when no firstname could be recognized</exception>
         private string GetFirstName(List<string> adresselement)
@@ -294,9 +319,9 @@ namespace ContactParser.App.Services
 
 
         /// <summary>
-        /// Extracts the Salutation
+        /// Extracts the salutation
         /// </summary>
-        /// <param name="adresselement"></param>
+        /// <param name="adresselement">The parsed elements from the name</param>
         /// <returns>The salutation as <see cref="string"/></returns>
         private string GetSalutation(List<string> adresselement)
         {
@@ -322,13 +347,13 @@ namespace ContactParser.App.Services
         }
 
         /// <summary>
-        /// Extract the MiddleName
+        /// Extract the middle name otherwise "keine Angabe" is returned
         /// </summary>
-        /// <param name="adresselement"></param>
+        /// <param name="adresselement">The parsed elements from the name</param>
         /// <returns>The middlename as <see cref="string"/></returns>
         private string GetMiddleName(List<string> adresselement)
         {
-
+            // Get the middle name
             string middleName = string.Empty;
             if (adresselement.Count > 0)
             {
@@ -346,9 +371,9 @@ namespace ContactParser.App.Services
         }
 
         /// <summary>
-        /// Extract the Title
+        /// Extract the title
         /// </summary>
-        /// <param name="adresselement"></param>
+        /// <param name="adresselement">The parsed elements from the name</param>
         /// <returns>The title as <see cref="string"/></returns>
         private string GetTitle(List<string> adresselement)
         {
@@ -392,12 +417,12 @@ namespace ContactParser.App.Services
         }
 
         /// <summary>
-        /// Create the Greeting
+        /// Create the greeting
         /// </summary>
-        /// <param name="lastName"></param>
-        /// <param name="firstName"></param>
-        /// <param name="salutation"></param>
-        /// <param name="title"></param>
+        /// <param name="lastName">The extracted lastname</param>
+        /// <param name="firstName">The extracted firstname</param>
+        /// <param name="salutation">The extracted saluation</param>
+        /// <param name="title">The extracted titles</param>
         /// <returns>The full greeting as <see cref="string"/></returns>     
         private string GetGreeting(string lastName, string firstName, string salutation, string title)
         {
@@ -460,11 +485,11 @@ namespace ContactParser.App.Services
         }
 
         /// <summary>
-        /// if input name like "lastName, firstName" change the names and remove the ","
+        /// If input name like "lastName, firstName" change the names and remove the ","
         /// </summary>
-        /// <param name="firstName"></param>
-        /// <param name="lastName"></param>
-        /// <returns>A list with firstName and lastName <see cref="List{String}"/></returns>
+        /// <param name="firstName">The extracted firstname</param>
+        /// <param name="lastName">The extracted lastname</param>
+        /// <returns>A list with firstName and lastName <see cref="List{string}"/></returns>
         private List<string> ChangeFirstAndLastName(string firstName, string lastName)
         {
             List<string> names = new List<string>();
@@ -502,5 +527,6 @@ namespace ContactParser.App.Services
             JsonContent = null;
             FileName = null;
         }
+        #endregion
     }
 }

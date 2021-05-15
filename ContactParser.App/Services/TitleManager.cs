@@ -8,6 +8,7 @@ namespace ContactParser.App.Services
 {
     public class TitleManager : IDisposable
     {
+        #region Methods
         /// <summary>
         /// Get the content either from titles.json on the desktop or the default text from the assembly
         /// </summary>
@@ -231,5 +232,6 @@ namespace ContactParser.App.Services
         /// Implementation of <see cref="IDisposable"/>
         /// </summary>
         public void Dispose() { }
+        #endregion
     }
 }

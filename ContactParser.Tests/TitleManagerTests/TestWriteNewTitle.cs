@@ -11,8 +11,9 @@ namespace ContactParser.Tests.TitleManagerTests
     [TestClass]
     public class TestWriteNewTitle
     {
+        #region Test Methods
         /// <summary>
-        /// Add new title when there is no existing file yet and the title already exists
+        /// Try to add new title when there is no existing file yet and the title already exists
         /// </summary>
         [TestMethod]
         public void WriteExistingTitleFromAssembly()
@@ -97,7 +98,7 @@ namespace ContactParser.Tests.TitleManagerTests
         }
 
         /// <summary>
-        /// Add new title into an existing file and the title exists already
+        /// Try to add new title into an existing file and the title exists already
         /// </summary>
         [TestMethod]
         public void WriteExistingTitleFromFile()
@@ -170,7 +171,9 @@ namespace ContactParser.Tests.TitleManagerTests
 
             Assert.AreEqual(expectedContent, actualContent);
         }
+        #endregion
 
+        #region Setup and Cleanup Methods
         /// <summary>
         /// Initializes the file for <see cref="WriteNewTitleFromFile"/>
         /// </summary>
@@ -207,5 +210,6 @@ namespace ContactParser.Tests.TitleManagerTests
                 File.Delete(filePath);
             }
         }
+        #endregion
     }
 }

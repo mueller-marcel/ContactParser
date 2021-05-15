@@ -171,7 +171,7 @@ namespace ContactParser.App.ViewModels
         public RelayCommand ResetCommand { get; set; }
         #endregion
 
-        #region Constructor
+        #region Constructors
         /// <summary>
         /// Constructor that initializes the command properties for the buttons
         /// </summary>

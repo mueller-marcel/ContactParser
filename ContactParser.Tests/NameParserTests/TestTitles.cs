@@ -7,6 +7,7 @@ namespace ContactParser.Tests.NameParserTests
     [TestClass]
     public class TestTitles
     {
+        #region Test Methods
         /// <summary>
         /// Test a german name without an academic title
         /// </summary>
@@ -60,7 +61,7 @@ namespace ContactParser.Tests.NameParserTests
         }
 
         /// <summary>
-        /// Test a german name with multiple academic title
+        /// Test a german name with multiple academic titles
         /// </summary>
         [TestMethod]
         public void ValidGermanNameWithTitles()
@@ -84,5 +85,6 @@ namespace ContactParser.Tests.NameParserTests
                 Assert.AreEqual(expectedName, parsedName);
             }
         }
+        #endregion
     }
 }

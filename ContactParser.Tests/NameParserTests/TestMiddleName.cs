@@ -7,6 +7,7 @@ namespace ContactParser.Tests.NameParserTests
     [TestClass]
     public class TestMiddleName
     {
+        #region Test Methods
         /// <summary>
         /// Test a german male name without middle name
         /// </summary>
@@ -84,5 +85,6 @@ namespace ContactParser.Tests.NameParserTests
                 Assert.AreEqual(expectedName, parsedName);
             }
         }
+        #endregion
     }
 }
