@@ -41,13 +41,13 @@ namespace ContactParser.Tests.TitleManagerTests
 
             // Prepare expected object
             TitleDTO titles = JsonSerializer.Deserialize<TitleDTO>(expectedContent);
-            titles.Title.Add("nat.");
+            titles.Title.Add("Eng.");
             expectedContent = JsonSerializer.Serialize(titles);
 
             // Get the actual content after adding "nat."
             using (var titleManager = new TitleManager())
             {
-                titleManager.WriteNewTitle("nat.");
+                titleManager.WriteNewTitle("Eng.");
                 actualContent = File.ReadAllText(filePath);
             }
 
@@ -78,12 +78,12 @@ namespace ContactParser.Tests.TitleManagerTests
 
             // Build expected object for comparison
             TitleDTO expectedTitles = JsonSerializer.Deserialize<TitleDTO>(expectedContent);
-            expectedTitles.Title.Add("nat.");
+            expectedTitles.Title.Add("Sc.");
             expectedContent = JsonSerializer.Serialize(expectedTitles);
 
             using (var titleManager = new TitleManager())
             {
-                titleManager.WriteNewTitle("nat.");
+                titleManager.WriteNewTitle("Sc.");
             }
 
             // Read the content from the file
