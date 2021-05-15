@@ -81,7 +81,7 @@ namespace ContactParser.App.Services
 
 
             // If salutation = "keine Angabe" replace with "" for the Greeting
-            if (salutation == "keine Angabe")
+            if (salutation.Equals("keine Angabe"))
             {
                 salutationTemp = "";
             }
@@ -238,11 +238,19 @@ namespace ContactParser.App.Services
         /// <returns>The FirstName as <see cref="string"/></returns>
         private string GetFirstName(List<string> adresselement)
         {
-            string firstName;
-            firstName = adresselement[0];
-            adresselement.RemoveAt(0);
-            return firstName;
+            string firstName = string.Empty;
+            try
+            {              
+                firstName = adresselement[0];
+                adresselement.RemoveAt(0);
+                return firstName;
+            }
+            catch{                
+                firstName = "Invalid";
+                return firstName;
+            }          
         }
+
 
         /// <summary>
         /// Extracts the Salutation
@@ -353,51 +361,51 @@ namespace ContactParser.App.Services
         private string GetGreeting(string lastName, string firstName, string salutation, string title)
         {
             //German
-            if (salutation == "Herr" || salutation == "Herrn")
+            if (salutation.Equals("Herr") || salutation.Equals("Herrn") || salutation.Equals("herr") || salutation.Equals("herrn"))
             {
                 string greeting = "Sehr geehrter " + "Herr" + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            else if (salutation == "Frau")
+            else if (salutation.Equals("Frau") || salutation.Equals("frau"))
             {
-                string greeting = "Sehr geehrte " + salutation + " " + title + " " + firstName + " " + lastName;
+                string greeting = "Sehr geehrte " + "Frau" + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
             //English
-            else if (salutation == "Mr" || salutation == "Ms" || salutation == "Mrs" || salutation == "Mr." || salutation == "Ms." || salutation == "Mrs.")
+            else if (salutation.Equals("Mr") || salutation.Equals("Ms") || salutation.Equals("Mrs" ) || salutation.Equals("Mr.") || salutation.Equals("Ms.") || salutation.Equals("Mrs."))
             {
                 string greeting = "Dear " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
             //Italy
-            else if (salutation == "Signora")
+            else if (salutation.Equals("Signora"))
             {
                 string greeting = "Gentie " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            else if (salutation == "Sig.")
+            else if (salutation.Equals("Sig."))
             {
                 string greeting = "Egregio " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
             //France
-            else if (salutation == "Mme" || salutation == "Mme.")
+            else if (salutation.Equals("Mme") || salutation.Equals("Mme."))
             {
                 string greeting = "Madame " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            else if (salutation == "M" || salutation == "M.")
+            else if (salutation.Equals("M") || salutation.Equals("M."))
             {
                 string greeting = "Monsieur " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
             //Espanol
-            else if (salutation == "Senora")
+            else if (salutation.Equals("Senora"))
             {
                 string greeting = "Estimada " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
             }
-            else if (salutation == "Senor")
+            else if (salutation.Equals("Senor"))
             {
                 string greeting = "Estimado " + salutation + " " + title + " " + firstName + " " + lastName;
                 return greeting;
