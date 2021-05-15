@@ -175,7 +175,13 @@ namespace ContactParser.App.Services
                     // Read from the assembly
                     string ressourceContent = GetTextFromAssembly();
                     TitleDTO titles = JsonSerializer.Deserialize<TitleDTO>(ressourceContent);
-                    titles.Title.AddRange(titleElements);
+                    foreach (var item in titleElements)
+                    {
+                        if (!titles.Title.Contains(item))
+                        {
+                            titles.Title.Add(item);
+                        }
+                    }
                     File.WriteAllText(filePath, JsonSerializer.Serialize(titles));
                 }
                 catch (ArgumentException)
@@ -195,8 +201,15 @@ namespace ContactParser.App.Services
             {
                 try
                 {
+                    // Add new title when there is no duplicate
                     TitleDTO titles = JsonSerializer.Deserialize<TitleDTO>(content);
-                    titles.Title.AddRange(titleElements);
+                    foreach (var item in titleElements)
+                    {
+                        if (!titles.Title.Contains(item))
+                        {
+                            titles.Title.Add(item);
+                        }
+                    }
                     File.WriteAllText(filePath, JsonSerializer.Serialize(titles));
                 }
                 catch (ArgumentException)
