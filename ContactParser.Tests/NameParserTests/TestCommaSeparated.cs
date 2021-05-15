@@ -7,6 +7,7 @@ namespace ContactParser.Tests.NameParserTests
     [TestClass]
     public class TestCommaSeparated
     {
+        #region Test Methods
         /// <summary>
         /// Test a non comma separated name
         /// </summary>
@@ -58,5 +59,6 @@ namespace ContactParser.Tests.NameParserTests
                 Assert.AreEqual(expectedName, parsedName);
             }
         }
+        #endregion
     }
 }

@@ -7,6 +7,7 @@ namespace ContactParser.Tests.NameParserTests
     [TestClass]
     public class TestNobleNames
     {
+        #region Test Methods
         /// <summary>
         /// Test a german name without a noble name
         /// </summary>
@@ -84,5 +85,6 @@ namespace ContactParser.Tests.NameParserTests
                 Assert.AreEqual(expectedName, parsedName);
             }
         }
+        #endregion
     }
 }

@@ -5,9 +5,6 @@ using System.Windows;
 using ContactParser.App.Helpers;
 using ContactParser.App.Models;
 using ContactParser.App.Services;
-using System;
-using System.Text.RegularExpressions;
-using System.Windows;
 
 namespace ContactParser.App.ViewModels
 {
@@ -174,7 +171,7 @@ namespace ContactParser.App.ViewModels
         public RelayCommand ResetCommand { get; set; }
         #endregion
 
-        #region Constructor
+        #region Constructors
         /// <summary>
         /// Constructor that initializes the command properties for the buttons
         /// </summary>
@@ -278,7 +275,7 @@ namespace ContactParser.App.ViewModels
                 Title = parsedName.Title;
                 Salutation = parsedName.Salutation;
                 ConcatenatedName = parsedName.Greeting;
-                
+
                 // If FirstName is invalid show advice
                 if (parsedName.Salutation.Equals("keine Angabe"))
                 {

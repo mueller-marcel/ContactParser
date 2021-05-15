@@ -2,41 +2,44 @@
 {
     public class Name
     {
+        #region Properties
         /// <summary>
-        /// holds the value for the Gender
+        /// Holds the value for the Gender
         /// </summary>
         public string Gender { get; set; }
 
         /// <summary>
-        /// holds the value for the LastName
+        /// Holds the value for the LastName
         /// </summary>
         public string LastName { get; set; }
 
         /// <summary>
-        /// holds the value for the FirstName
+        /// Holds the value for the FirstName
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// holds the value for the MiddleName
+        /// Holds the value for the MiddleName
         /// </summary>
         public string MiddleName { get; set; }
 
         /// <summary>
-        /// holds the value for the Title
+        /// Holds the value for the Title
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// holds the value for the Salutation
+        /// Holds the value for the Salutation
         /// </summary>
         public string Salutation { get; set; }
 
         /// <summary>
-        /// holds the value for the Greeting
+        /// Holds the value for the Greeting
         /// </summary>
         public string Greeting { get; set; }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Override the equals method
         /// </summary>
@@ -81,5 +84,6 @@
         {
             return base.GetHashCode();
         }
+        #endregion
     }
 }

@@ -7,6 +7,7 @@ namespace ContactParser.Tests.NameParserTests
     [TestClass]
     public class TestLanguagesAndGender
     {
+        #region Test Methods
         /// <summary>
         /// Test a spanish female name
         /// </summary>
@@ -58,5 +59,6 @@ namespace ContactParser.Tests.NameParserTests
                 Assert.AreEqual(expectedName, parsedName);
             }
         }
+        #endregion
     }
 }

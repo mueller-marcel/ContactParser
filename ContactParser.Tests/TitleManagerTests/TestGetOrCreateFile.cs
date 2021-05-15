@@ -9,6 +9,7 @@ namespace ContactParser.Tests.TitleManagerTests
     [TestClass]
     public class TestGetOrCreateFile
     {
+        #region Test Methods
         /// <summary>
         /// Tests the creation of a new file
         /// </summary>
@@ -58,7 +59,9 @@ namespace ContactParser.Tests.TitleManagerTests
 
             Assert.AreEqual(filePath, actualFilePath);
         }
+        #endregion
 
+        #region Setup and Cleanup Methods
         /// <summary>
         /// Initializes the file for <see cref="ReturnExistingFilePath"/>
         /// </summary>
@@ -95,5 +98,6 @@ namespace ContactParser.Tests.TitleManagerTests
                 File.Delete(filePath);
             }
         }
+        #endregion
     }
 }
