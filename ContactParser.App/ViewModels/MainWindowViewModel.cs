@@ -259,7 +259,7 @@ namespace ContactParser.App.ViewModels
             if (regexNumbers.IsMatch(InputField))
             {
                 InputField = string.Empty;
-                MessageBox.Show("Invalide Input! \nThe following characters are allowed: . , - \nThe following characters are not allowed: \n0 1 2 3 4 5 6 7 8 9 : ; / < > | { } ? \\ ´ ` ' # ^ ° _ ! § $ % & ( ) [ ] + * \"");
+                MessageBox.Show("Invalide Input! \nOnly the following characters are allowed: a-z A-Z . , - ");
                 return;
             }
 
@@ -268,6 +268,8 @@ namespace ContactParser.App.ViewModels
             {
                 parsedName = nameParser.ParseName(InputField);
             }
+
+            
 
             Gender = parsedName.Gender;
             FirstName = parsedName.FirstName;
