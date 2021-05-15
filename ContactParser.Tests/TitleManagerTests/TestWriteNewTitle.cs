@@ -12,6 +12,48 @@ namespace ContactParser.Tests.TitleManagerTests
     public class TestWriteNewTitle
     {
         /// <summary>
+        /// Add new title when there is no existing file yet and the title already exists
+        /// </summary>
+        [TestMethod]
+        public void WriteExistingTitleFromAssembly()
+        {
+            // Declarations
+            string expectedContent, actualContent;
+
+            // Get file path of the titles.json file and delete if it exists
+            Uri location = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+            string filePath = Path.Combine(location.AbsolutePath, "titles.json");
+
+            // Delete the file if its existing
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
+            // Get ressources of the assembly
+            Assembly assembly = Assembly.GetAssembly(typeof(NameParser));
+            Stream resourceStream = assembly.GetManifestResourceStream("ContactParser.App.Data.Data.json");
+
+            using (var StreamReader = new StreamReader(resourceStream))
+            {
+                expectedContent = StreamReader.ReadToEnd();
+            }
+
+            // Prepare expected object
+            TitleDTO titles = JsonSerializer.Deserialize<TitleDTO>(expectedContent);
+            expectedContent = JsonSerializer.Serialize(titles);
+
+            // Get the actual content after adding "nat."
+            using (var titleManager = new TitleManager())
+            {
+                titleManager.WriteNewTitle("Dr.");
+                actualContent = File.ReadAllText(filePath);
+            }
+
+            Assert.AreEqual(expectedContent, actualContent);
+        }
+
+        /// <summary>
         /// Add new title when there is no existing file yet
         /// </summary>
         [TestMethod]
@@ -50,6 +92,43 @@ namespace ContactParser.Tests.TitleManagerTests
                 titleManager.WriteNewTitle("Eng.");
                 actualContent = File.ReadAllText(filePath);
             }
+
+            Assert.AreEqual(expectedContent, actualContent);
+        }
+
+        /// <summary>
+        /// Add new title into an existing file and the title exists already
+        /// </summary>
+        [TestMethod]
+        public void WriteExistingTitleFromFile()
+        {
+            // Declarations
+            string expectedContent, actualContent;
+
+            // Get ressources of the assembly
+            Assembly assembly = Assembly.GetAssembly(typeof(NameParser));
+            Stream resourceStream = assembly.GetManifestResourceStream("ContactParser.App.Data.Data.json");
+
+            // Get file path of the titles.json file and delete if it exists
+            Uri location = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+            string filePath = Path.Combine(location.AbsolutePath, "titles.json");
+
+            using (var StreamReader = new StreamReader(resourceStream))
+            {
+                expectedContent = StreamReader.ReadToEnd();
+            }
+
+            // Build expected object for comparison
+            TitleDTO expectedTitles = JsonSerializer.Deserialize<TitleDTO>(expectedContent);
+            expectedContent = JsonSerializer.Serialize(expectedTitles);
+
+            using (var titleManager = new TitleManager())
+            {
+                titleManager.WriteNewTitle("Dr.");
+            }
+
+            // Read the content from the file
+            actualContent = File.ReadAllText(filePath);
 
             Assert.AreEqual(expectedContent, actualContent);
         }
