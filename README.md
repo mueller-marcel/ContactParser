@@ -14,6 +14,9 @@ Geben Sie den Namen in das Eingabefeld ein. Achten Sie darauf, dass die Namensel
 ### Hinzufügen eines neuen Titels
 Geben Sie den Titel in die das Textfeld unten ein und klicken Sie auf "Hinzufügen". Auf Ihrem Desktop wird eine `JSON`-Datei angelegt, welche alle Titel mitsamt dem neuen Titel enthält.
 
+## Architektur
+![Architektur](https://github.com/mueller-marcel/ContactParser/blob/master/images/Architektur.png)
+
 ## User Stories
 ### Story 1 
 * Als Headhunter möchte ich gezielt Job-KandidatInnen förmlich mit Anrede kontaktieren, um auf persönlicher Ebene Kontakt aufzubauen. Hierfür ist eine generierte Briefanrede vonnöten.
